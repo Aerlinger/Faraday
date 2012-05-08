@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.InputPort=function(_18ac){draw2d.Port.call(this,_18ac);};draw2d.InputPort.prototype=new draw2d.Port();draw2d.InputPort.prototype.type="draw2d.InputPort";draw2d.InputPort.prototype.onDragstart=function(x,y){if(!this.canDrag){return false;}return true;};draw2d.InputPort.prototype.onDragEnter=function(port){if(port instanceof draw2d.OutputPort){draw2d.Port.prototype.onDragEnter.call(this,port);}else{if(port instanceof draw2d.LineStartResizeHandle){var line=this.workflow.currentSelection;if(line instanceof draw2d.Connection&&line.getSource() instanceof draw2d.InputPort){draw2d.Port.prototype.onDragEnter.call(this,line.getTarget());}}else{if(port instanceof draw2d.LineEndResizeHandle){var line=this.workflow.currentSelection;if(line instanceof draw2d.Connection&&line.getTarget() instanceof draw2d.InputPort){draw2d.Port.prototype.onDragEnter.call(this,line.getSource());}}}}};draw2d.InputPort.prototype.onDragLeave=function(port){if(port instanceof draw2d.OutputPort){draw2d.Port.prototype.onDragLeave.call(this,port);}else{if(port instanceof draw2d.LineStartResizeHandle){var line=this.workflow.currentSelection;if(line instanceof draw2d.Connection&&line.getSource() instanceof draw2d.InputPort){draw2d.Port.prototype.onDragLeave.call(this,line.getTarget());}}else{if(port instanceof draw2d.LineEndResizeHandle){var line=this.workflow.currentSelection;if(line instanceof draw2d.Connection&&line.getTarget() instanceof draw2d.InputPort){draw2d.Port.prototype.onDragLeave.call(this,line.getSource());}}}}};draw2d.InputPort.prototype.createCommand=function(_18b3){if(_18b3.getPolicy()==draw2d.EditPolicy.CONNECT){if(_18b3.source.parentNode.id==_18b3.target.parentNode.id){return null;}if(_18b3.source instanceof draw2d.OutputPort){return new draw2d.CommandConnect(_18b3.canvas,_18b3.source,_18b3.target);}return null;}return draw2d.Port.prototype.createCommand.call(this,_18b3);};

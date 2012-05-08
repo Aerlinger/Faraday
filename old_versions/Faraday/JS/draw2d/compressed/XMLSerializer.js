@@ -1,0 +1,10 @@
+/**
+This notice must be untouched at all times.
+This is the COMPRESSED version of Draw2D
+WebSite: http://www.draw2d.org
+Copyright: 2006 Andreas Herz. All rights reserved.
+Created: 5.11.2006 by Andreas Herz (Web: http://www.freegroup.de )
+LICENSE: LGPL
+**/
+
+draw2d.XMLSerializer=function(){alert("do not init this class. Use the static methods instead");};draw2d.XMLSerializer.toXML=function(obj,_12,_13){if(_12==undefined){_12="model";}_13=_13?_13:"";var t=draw2d.XMLSerializer.getTypeName(obj);var s=_13+"<"+_12+" type=\""+t+"\">";switch(t){case "int":case "number":case "boolean":s+=obj;break;case "string":s+=draw2d.XMLSerializer.xmlEncode(obj);break;case "date":s+=obj.toLocaleString();break;case "Array":case "array":s+="\n";var _16=_13+"   ";for(var i=0;i<obj.length;i++){s+=draw2d.XMLSerializer.toXML(obj[i],("element"),_16);}s+=_13;break;default:if(obj!==null){s+="\n";if(obj instanceof draw2d.ArrayList){obj.trimToSize();}var _18=obj.getPersistentAttributes();var _16=_13+"   ";for(var _19 in _18){s+=draw2d.XMLSerializer.toXML(_18[_19],_19,_16);}s+=_13;}break;}s+="</"+_12+">\n";return s;};draw2d.XMLSerializer.isSimpleVar=function(t){switch(t){case "int":case "string":case "String":case "Number":case "number":case "Boolean":case "boolean":case "bool":case "dateTime":case "Date":case "date":case "float":return true;}return false;};draw2d.XMLSerializer.getTypeName=function(obj){if(obj===null){return "undefined";}if(obj instanceof Array){return "Array";}if(obj instanceof Date){return "Date";}var t=typeof (obj);if(t=="number"){return (parseInt(obj).toString()==obj)?"int":"number";}if(draw2d.XMLSerializer.isSimpleVar(t)){return t;}return obj.type.replace("@NAMESPACE"+"@","");};draw2d.XMLSerializer.xmlEncode=function(_1d){var _1e=_1d;var amp=/&/gi;var gt=/>/gi;var lt=/</gi;var _22=/"/gi;var _23=/'/gi;var _24="&#62;";var _25="&#38;#60;";var _26="&#38;#38;";var _27="&#34;";var _28="&#39;";_1e=_1e.replace(amp,_26);_1e=_1e.replace(_22,_27);_1e=_1e.replace(lt,_25);_1e=_1e.replace(gt,_24);_1e=_1e.replace(_23,_28);return _1e;};

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/Strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Vector draw Editor</title>
+        <link type="text/css" rel="stylesheet" href="../demo.css" />
+
+    <!-- common, all times required, imports -->        <!--REGEXP_START_REMOVE-->
+	<SCRIPT src="../include/String.js"></SCRIPT>
+	<SCRIPT src="../include/wz_jsgraphics.js"></SCRIPT>
+	<SCRIPT src="../include/events.js"></SCRIPT>
+	<SCRIPT src="../include/debug.js"></SCRIPT>
+	<SCRIPT src="../include/dragdrop.js"></SCRIPT>
+	<SCRIPT src="../include/UUID.js"></SCRIPT>
+	<SCRIPT src="../include/PositionConstants.js"></SCRIPT>
+	<SCRIPT src="../include/Graphics.js"></SCRIPT>
+	<SCRIPT src="../include/Color.js"></SCRIPT>
+	<SCRIPT src="../include/ArrayList.js"></SCRIPT>
+	<SCRIPT src="../include/Point.js"></SCRIPT>
+	<SCRIPT src="../include/Dimension.js"></SCRIPT>
+	<SCRIPT src="../include/Border.js"></SCRIPT>
+	<SCRIPT src="../include/LineBorder.js"></SCRIPT>
+	<SCRIPT src="../include/Figure.js"></SCRIPT>
+	<SCRIPT src="../include/Node.js"></SCRIPT>
+        <SCRIPT src="../include/VectorFigure.js"></SCRIPT>
+        <SCRIPT src="../include/SVGFigure.js"></SCRIPT>
+	<SCRIPT src="../include/Label.js"></SCRIPT>
+	<SCRIPT src="../include/Oval.js"></SCRIPT>
+	<SCRIPT src="../include/Circle.js"></SCRIPT>
+	<SCRIPT src="../include/Rectangle.js"></SCRIPT>
+	<SCRIPT src="../include/ImageFigure.js"></SCRIPT>
+	<SCRIPT src="../include/Port.js"></SCRIPT>
+	<SCRIPT src="../include/InputPort.js"></SCRIPT>
+	<SCRIPT src="../include/OutputPort.js"></SCRIPT>
+	<SCRIPT src="../include/Line.js"></SCRIPT>
+	<SCRIPT src="../include/ConnectionRouter.js"></SCRIPT>
+	<SCRIPT src="../include/NullConnectionRouter.js"></SCRIPT>
+	<SCRIPT src="../include/ManhattanConnectionRouter.js"></SCRIPT>
+	<SCRIPT src="../include/BezierConnectionRouter.js"></SCRIPT>
+	<SCRIPT src="../include/FanConnectionRouter.js"></SCRIPT>
+	<SCRIPT src="../include/Connection.js"></SCRIPT>
+	<SCRIPT src="../include/ConnectionAnchor.js"></SCRIPT>
+	<SCRIPT src="../include/ChopboxConnectionAnchor.js"></SCRIPT>
+	<SCRIPT src="../include/ConnectionDecorator.js"></SCRIPT>
+	<SCRIPT src="../include/ArrowConnectionDecorator.js"></SCRIPT>
+	<SCRIPT src="../include/CompartmentFigure.js"></SCRIPT>
+	<SCRIPT src="../include/CanvasDocument.js"></SCRIPT>
+	<SCRIPT src="../include/Annotation.js"></SCRIPT>
+	<SCRIPT src="../include/ResizeHandle.js"></SCRIPT>
+	<SCRIPT src="../include/LineStartResizeHandle.js"></SCRIPT>
+	<SCRIPT src="../include/LineEndResizeHandle.js"></SCRIPT>
+	<SCRIPT src="../include/Canvas.js"></SCRIPT>
+	<SCRIPT src="../include/Workflow.js"></SCRIPT>
+	<SCRIPT src="../include/WindowFigure.js"></SCRIPT>
+	<SCRIPT src="../include/Button.js"></SCRIPT>
+	<SCRIPT src="../include/ToggleButton.js"></SCRIPT>
+	<SCRIPT src="../include/SnapToHelper.js"></SCRIPT>
+	<SCRIPT src="../include/SnapToGeometry.js"></SCRIPT>
+	<SCRIPT src="../include/SnapToGeometryEntry.js"></SCRIPT>
+	<SCRIPT src="../include/SnapToGrid.js"></SCRIPT>
+	<SCRIPT src="../include/ToggleButton.js"></SCRIPT>
+	<SCRIPT src="../include/ToolGeneric.js"></SCRIPT>
+	<SCRIPT src="../include/ToolPalette.js"></SCRIPT>
+	<SCRIPT src="../include/Dialog.js"></SCRIPT>
+	<SCRIPT src="../include/InputDialog.js"></SCRIPT>
+	<SCRIPT src="../include/PropertyDialog.js"></SCRIPT>
+	<SCRIPT src="../include/AnnotationDialog.js"></SCRIPT>
+	<SCRIPT src="../include/PropertyWindow.js"></SCRIPT>
+	<SCRIPT src="../include/ColorDialog.js"></SCRIPT>
+	<SCRIPT src="../include/LineColorDialog.js"></SCRIPT>
+	<SCRIPT src="../include/BackgroundColorDialog.js"></SCRIPT>
+	<SCRIPT src="../include/EditPartFactory.js"></SCRIPT>
+	<SCRIPT src="../include/AbstractObjectModel.js"></SCRIPT>
+	<SCRIPT src="../include/PropertyChangeEvent.js"></SCRIPT>
+	<SCRIPT src="../include/GraphicalViewer.js"></SCRIPT>
+	<SCRIPT src="../include/GraphicalEditor.js"></SCRIPT>
+	<SCRIPT src="../include/xmlsax.js"></SCRIPT>
+	<SCRIPT src="../include/xmlw3cdom.js"></SCRIPT>
+	<SCRIPT src="../include/XMLSerializer.js"></SCRIPT>
+	<SCRIPT src="../include/XMLDeserializer.js"></SCRIPT>
+	<SCRIPT src="../include/EditPolicy.js"></SCRIPT>
+
+        <!-- undo/redo support (all times required too) -->
+	<SCRIPT src="../include/Command.js"></SCRIPT>
+	<SCRIPT src="../include/CommandStack.js"></SCRIPT>
+	<SCRIPT src="../include/CommandStackEvent.js"></SCRIPT>
+	<SCRIPT src="../include/CommandStackEventListener.js"></SCRIPT>
+	<SCRIPT src="../include/CommandAdd.js"></SCRIPT>
+	<SCRIPT src="../include/CommandDelete.js"></SCRIPT>
+	<SCRIPT src="../include/CommandMove.js"></SCRIPT>
+	<SCRIPT src="../include/CommandMoveLine.js"></SCRIPT>
+	<SCRIPT src="../include/CommandMovePort.js"></SCRIPT>
+	<SCRIPT src="../include/CommandResize.js"></SCRIPT>
+	<SCRIPT src="../include/CommandSetText.js"></SCRIPT>
+	<SCRIPT src="../include/CommandSetColor.js"></SCRIPT>
+	<SCRIPT src="../include/CommandSetBackgroundColor.js"></SCRIPT>
+	<SCRIPT src="../include/CommandConnect.js"></SCRIPT>
+	<SCRIPT src="../include/CommandReconnect.js"></SCRIPT>
+	<SCRIPT src="../include/Menu.js"></SCRIPT>
+	<SCRIPT src="../include/MenuItem.js"></SCRIPT>
+	<SCRIPT src="../include/mootools.js"></SCRIPT>
+	<SCRIPT src="../include/moocanvas.js"></SCRIPT>
+        <!--REGEXP_END_REMOVE-->
+
+        <!-- example specific imports -->
+	<SCRIPT src="ToolRectangle.js"></SCRIPT>
+	<SCRIPT src="ToolOval.js"></SCRIPT>
+	<SCRIPT src="ToolCircle.js"></SCRIPT>
+	<SCRIPT src="ToolCircleUnfilled.js"></SCRIPT>
+	<SCRIPT src="ToolRectangleUnfilled.js"></SCRIPT>
+	<SCRIPT src="ToolOvalUnfilled.js"></SCRIPT>
+	<SCRIPT src="ToolLine.js"></SCRIPT>
+	<SCRIPT src="ToolUndo.js"></SCRIPT>
+	<SCRIPT src="ToolRedo.js"></SCRIPT>
+	<SCRIPT src="VectorPalette.js"></SCRIPT>
+	<SCRIPT src="VectorPropertyWindow.js"></SCRIPT>
+
+</head>
+<body onselectstart="return false;" style="margin:0px;padding:0px;" onkeydown="">
+<div id="paintarea" style="width:3000px;height:3000px" >
+
+    <!-- The information help text -->
+    <div class="stickyNote">
+    <center><b>Draw2D 0.9.26 - A simple diagram drawing demo<br>
+    by Andreas Herz (a.herz @ freegroup.de)
+    <br>
+    </b>
+    <br>
+    <div style="color:red;font-size:9pt">Focus of this example: How to create my own ToolPalette.</div>
+    </center>
+    <br>
+    <center>See more on <a href="http://www.draw2d.org">FreeGroup Draw2D 0.9.26</a></center>
+    </div>
+
+</div>
+<script>
+  var workflow  = new draw2d.Workflow("paintarea");
+
+  // Add a simple PropertyDialog to the Canvas
+  // This will display the properties of the current select object
+  //
+  var dialog = new draw2d.VectorPropertyWindow();
+  workflow.showDialog(dialog,400,10);
+
+
+  // Add the Tool Window to the screen
+  //
+  var w = new draw2d.VectorPalette();
+  workflow.setToolWindow(w);
+
+  // move the tool palette out of the hint message at the top left corner
+  //
+  w.setPosition(20,140);
+
+  window.onscroll=function(){workflow.onScroll();};
+</script>
+</body>
+</html>

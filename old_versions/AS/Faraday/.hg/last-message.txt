@@ -1,0 +1,2 @@
+Added the DiodeElm.
+There is currently a lag issue with nonlinear circuits. The culprit seems to be the lu_factor function which  is called every frame for nonlinear circuits. A proposed fix would be to replace two dimensional arrays with one dimensional arrays.
