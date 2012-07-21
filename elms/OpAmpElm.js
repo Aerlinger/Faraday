@@ -1,5 +1,3 @@
-
-
 OpAmpElm.prototype = new CircuitElement();
 OpAmpElm.prototype.constructor = OpAmpElm;
 
@@ -12,7 +10,7 @@ function OpAmpElm(xa, ya, xb, yb, f, st) {
 
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
-    this.opsize =0;
+    this.opsize = 0;
     this.opheight = 0;
     this.opwidth = 0;
     this.opaddtext = 0;
@@ -23,7 +21,8 @@ function OpAmpElm(xa, ya, xb, yb, f, st) {
     this.gain = 1e6;
     this.gbw = 0;
 
-    this.reset = false;;
+    this.reset = false;
+    ;
 
     this.in1p = [];
     this.in2p = [];
@@ -39,8 +38,8 @@ function OpAmpElm(xa, ya, xb, yb, f, st) {
     this.gbw = 1e6;
 
 
-    if(st && st.length>0) {
-        if( typeof st == 'string')
+    if (st && st.length > 0) {
+        if (typeof st == 'string')
             st = st.split(' ');
 
         try {
@@ -54,25 +53,26 @@ function OpAmpElm(xa, ya, xb, yb, f, st) {
     this.noDiagonal = true;
     this.setSize((f & OpAmpElm.FLAG_SMALL) != 0 ? 1 : 2);
     this.setGain();
-};
+}
+;
 
 OpAmpElm.prototype.lastvd = 0;
 
-OpAmpElm.prototype.setGain = function() {
+OpAmpElm.prototype.setGain = function () {
     // gain of 100000 breaks e-amp-dfdx.txt
     // gain was 1000, but it broke amp-schmitt.txt
     this.gain = ((this.flags & OpAmpElm.FLAG_LOWGAIN) != 0) ? 1000 : 100000;
 };
 
-OpAmpElm.prototype.dump = function() {
+OpAmpElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.maxOut + " " + this.minOut + " " + this.gbw;
 };
 
-OpAmpElm.prototype.nonLinear = function() {
+OpAmpElm.prototype.nonLinear = function () {
     return true;
 };
 
-OpAmpElm.prototype.draw = function() {
+OpAmpElm.prototype.draw = function () {
     this.setBboxPt(this.point1, this.point2, this.opheight * 2);
     var color = this.setVoltageColor(this.volts[0]);
 
@@ -84,8 +84,8 @@ OpAmpElm.prototype.draw = function() {
     CircuitElement.drawThickPolygonP(this.triangle, this.needsHighlight() ? CircuitElement.selectColor : CircuitElement.lightGrayColor);
     //g.setFont(plusFont);
 
-    this.drawCenteredText("-", this.textp[0].x+3, this.textp[0].y + 8, true).attr({'font-weight':'bold', 'font-size': 17});
-    this.drawCenteredText("+", this.textp[1].x+3, this.textp[1].y + 10, true).attr({'font-weight':'bold', 'font-size': 14});
+    this.drawCenteredText("-", this.textp[0].x + 3, this.textp[0].y + 8, true).attr({'font-weight':'bold', 'font-size':17});
+    this.drawCenteredText("+", this.textp[1].x + 3, this.textp[1].y + 10, true).attr({'font-weight':'bold', 'font-size':14});
 
     color = this.setVoltageColor(this.volts[2]);
     CircuitElement.drawThickLinePt(this.lead2, this.point2, color);
@@ -95,19 +95,19 @@ OpAmpElm.prototype.draw = function() {
     this.drawPosts();
 };
 
-OpAmpElm.prototype.getPower = function() {
+OpAmpElm.prototype.getPower = function () {
     return this.volts[2] * this.current;
 };
 
 
-OpAmpElm.prototype.setSize = function(s) {
+OpAmpElm.prototype.setSize = function (s) {
     this.opsize = s;
     this.opheight = 8 * s;
     this.opwidth = 13 * s;
     this.flags = (this.flags & ~OpAmpElm.FLAG_SMALL) | ((s == 1) ? OpAmpElm.FLAG_SMALL : 0);
 };
 
-OpAmpElm.prototype.setPoints = function() {
+OpAmpElm.prototype.setPoints = function () {
 
     CircuitElement.prototype.setPoints.call(this);
     if (this.dn > 150 && this == CirSim.dragElm)
@@ -133,19 +133,19 @@ OpAmpElm.prototype.setPoints = function() {
     //this.plusFont = new Font("SansSerif", 0, opsize == 2 ? 14 : 10);
 };
 
-OpAmpElm.prototype.getPostCount = function() {
+OpAmpElm.prototype.getPostCount = function () {
     return 3;
 };
 
-OpAmpElm.prototype.getPost = function(n) {
+OpAmpElm.prototype.getPost = function (n) {
     return (n == 0) ? this.in1p[0] : (n == 1) ? this.in2p[0] : this.point2;
 };
 
-OpAmpElm.prototype.getVoltageSourceCount = function() {
+OpAmpElm.prototype.getVoltageSourceCount = function () {
     return 1;
 };
 
-OpAmpElm.prototype.getInfo = function(arr) {
+OpAmpElm.prototype.getInfo = function (arr) {
 
     arr[0] = "op-amp";
     arr[1] = "V+ = " + CircuitElement.getVoltageText(this.volts[1]);
@@ -161,13 +161,13 @@ OpAmpElm.prototype.getInfo = function(arr) {
 };
 
 
-OpAmpElm.prototype.stamp = function() {
+OpAmpElm.prototype.stamp = function () {
     var vn = CirSim.nodeList.length + this.voltSource;
     CirSim.stampNonLinear(vn);
     CirSim.stampMatrix(this.nodes[2], vn, 1);
 };
 
-OpAmpElm.prototype.doStep = function() {
+OpAmpElm.prototype.doStep = function () {
     var vd = this.volts[1] - this.volts[0];
 
     if (Math.abs(this.lastvd - vd) > .1)
@@ -201,23 +201,23 @@ OpAmpElm.prototype.doStep = function() {
 };
 
 // there is no current path through the op-amp inputs, but there is an indirect path through the output to ground.
-OpAmpElm.prototype.getConnection = function(n1, n2) {
+OpAmpElm.prototype.getConnection = function (n1, n2) {
     return false;
 };
 
-OpAmpElm.prototype.hasGroundConnection = function(n1) {
+OpAmpElm.prototype.hasGroundConnection = function (n1) {
     return (n1 == 2);
 };
 
-OpAmpElm.prototype.getVoltageDiff = function() {
+OpAmpElm.prototype.getVoltageDiff = function () {
     return this.volts[2] - this.volts[1];
 };
 
-OpAmpElm.prototype.getDumpType = function() {
+OpAmpElm.prototype.getDumpType = function () {
     return 'a';
 };
 
-OpAmpElm.prototype.getEditInfo = function(n) {
+OpAmpElm.prototype.getEditInfo = function (n) {
     if (n == 0)
         return new EditInfo("Max Output (V)", this.maxOut, 1, 20);
     if (n == 1)
@@ -225,7 +225,7 @@ OpAmpElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-OpAmpElm.prototype.setEditValue = function(n, ei) {
+OpAmpElm.prototype.setEditValue = function (n, ei) {
     if (n == 0)
         this.maxOut = ei.value;
     if (n == 1)

@@ -1,1 +1,1 @@
-C:\Users\Aerlinger\AppData\Local\Google\Chrome\Application\chrome.exe --disable-web-security -–allow-file-access-from-files
+C:\Users\Aerlinger\AppData\Local\Google\Chrome\Application\chrome.exe --disable-web-security --allow-file-access-from-files

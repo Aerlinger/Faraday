@@ -3,19 +3,20 @@ GroundElm.prototype = new CircuitElement();
 // Step 3: Now we need to set the constructor to the DepthRectangle instead of Rectangle
 GroundElm.prototype.constructor = GroundElm;
 
-function GroundElm( xa, ya, xb, yb, f, st ) {
+function GroundElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f, st);
-};
+}
+;
 
-GroundElm.prototype.getDumpType = function()  {
+GroundElm.prototype.getDumpType = function () {
     return 'g';
 };
 
-GroundElm.prototype.getPostCount =  function() {
+GroundElm.prototype.getPostCount = function () {
     return 1;
 };
 
-GroundElm.prototype.draw = function() {
+GroundElm.prototype.draw = function () {
     var color = this.setVoltageColor(0);
     CircuitElement.drawThickLinePt(this.point1, this.point2, color);
     var i;
@@ -33,35 +34,35 @@ GroundElm.prototype.draw = function() {
     this.drawPost(this.x, this.y, this.nodes[0]);
 };
 
-GroundElm.prototype.setCurrent = function(x, c) {
+GroundElm.prototype.setCurrent = function (x, c) {
     this.current = -c;
 };
 
-GroundElm.prototype.stamp = function() {
+GroundElm.prototype.stamp = function () {
     CirSim.stampVoltageSource(0, this.nodes[0], this.voltSource, 0);
 };
 
-GroundElm.prototype.getVoltageDiff = function() {
+GroundElm.prototype.getVoltageDiff = function () {
     return 0;
 };
 
-GroundElm.prototype.getVoltageSourceCount = function() {
+GroundElm.prototype.getVoltageSourceCount = function () {
     return 1;
 };
 
-GroundElm.prototype.getInfo = function(arr) {
+GroundElm.prototype.getInfo = function (arr) {
     arr[0] = "ground";
     arr[1] = "I = " + CircuitElement.getCurrentText(this.getCurrent());
 };
 
-GroundElm.prototype.hasGroundConnection = function(n1) {
+GroundElm.prototype.hasGroundConnection = function (n1) {
     return true;
 };
 
-GroundElm.prototype.needsShortcut = function() {
+GroundElm.prototype.needsShortcut = function () {
     return true;
 };
 
-GroundElm.prototype.toString = function() {
+GroundElm.prototype.toString = function () {
     return "GroundElm";
 };

@@ -1,10 +1,10 @@
- FindPathInfo.INDUCT = 1;
+FindPathInfo.INDUCT = 1;
 FindPathInfo.VOLTAGE = 2;
 FindPathInfo.SHORT = 3;
 FindPathInfo.CAP_V = 4;
 
 // Constructor
-function FindPathInfo(type, firstElm, dest, elementList, numNodes ) {
+function FindPathInfo(type, firstElm, dest, elementList, numNodes) {
 
 
     this.dest = dest;
@@ -14,7 +14,8 @@ function FindPathInfo(type, firstElm, dest, elementList, numNodes ) {
 
     this.used = new Array(numNodes);
     //zeroArray(this.used);
-};
+}
+;
 
 //public function FindPathInfo(t, e, d, elementList:Array, numNodes:int) {
 //    dest = d;
@@ -28,7 +29,7 @@ function FindPathInfo(type, firstElm, dest, elementList, numNodes ) {
 //}
 
 
-FindPathInfo.prototype.findPath = function(n1, depth) {
+FindPathInfo.prototype.findPath = function (n1, depth) {
 
     if (n1 == this.dest)
         return true;

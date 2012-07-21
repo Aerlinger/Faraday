@@ -7,37 +7,38 @@ VarRailElm.prototype.slider;
 VarRailElm.prototype.label;
 VarRailElm.prototype.sliderText;
 
-function VarRailElm(xa, ya, xb, yb, f, st ) {
+function VarRailElm(xa, ya, xb, yb, f, st) {
     RailElm.call(this, xa, ya, xb, yb, f, st)
 
     this.sliderText = "voltage";
     this.frequency = this.maxVoltage;
     this.createSlider();
-};
+}
+;
 
-VarRailElm.prototype.dump = function() {
+VarRailElm.prototype.dump = function () {
     return RailElm.prototype.dump.call(this) + " " + this.sliderText;
 };
 
-VarRailElm.prototype.getDumpType = function() {
+VarRailElm.prototype.getDumpType = function () {
     return 172;
 };
 
-VarRailElm.prototype.createSlider = function() {
+VarRailElm.prototype.createSlider = function () {
     // Todo: implement
 };
 
-VarRailElm.getVoltage = function() {
+VarRailElm.getVoltage = function () {
     frequency = slider.getValue() * (maxVoltage - bias) / 100. + bias;
     return frequency;
 };
 
-VarRailElm.prototype.delete = function() {
+VarRailElm.prototype.delete = function () {
     CirSim.main.remove(label);
     CirSim.main.remove(slider);
 };
 
-VarRailElm.prototype.getEditInfo = function(n) {
+VarRailElm.prototype.getEditInfo = function (n) {
     if (n == 0)
         return new EditInfo("Min Voltage", bias, -20, 20);
     if (n == 1)
@@ -50,7 +51,7 @@ VarRailElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-VarRailElm.prototype.setEditValue = function(n, ei) {
+VarRailElm.prototype.setEditValue = function (n, ei) {
     if (n == 0)
         bias = ei.value;
     if (n == 1)

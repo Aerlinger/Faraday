@@ -1,4 +1,3 @@
-
 // Constants
 Scope.FLAG_YELM = 32;
 Scope.VAL_POWER = 1;
@@ -47,49 +46,50 @@ Scope.prototype.draw_ox;
 Scope.prototype.draw_oy;
 
 
-Scope.prototype.showI       = false;
-Scope.prototype.showV       = false;
-Scope.prototype.showMax     = false;
-Scope.prototype.showMin     = false;
-Scope.prototype.showFreq    = false;
-Scope.prototype.lockScale   = false;
-Scope.prototype.plot2d      = false;
-Scope.prototype.plotXY      = false;
+Scope.prototype.showI = false;
+Scope.prototype.showV = false;
+Scope.prototype.showMax = false;
+Scope.prototype.showMin = false;
+Scope.prototype.showFreq = false;
+Scope.prototype.lockScale = false;
+Scope.prototype.plot2d = false;
+Scope.prototype.plotXY = false;
 
 
 function Scope() {
     this.rect = new Rectangle(0, 0, 0, 0);
     this.reset();
-};
+}
+;
 
-Scope.prototype.showCurrent = function(b) {
+Scope.prototype.showCurrent = function (b) {
     this.showI = b;
     this.value = this.ivalue = 0;
 };
 
-Scope.prototype.showVoltage = function(b) {
+Scope.prototype.showVoltage = function (b) {
 
     this.showV = b;
     this.value = this.ivalue = 0;
 };
 
-Scope.prototype.showMax = function(b) {
+Scope.prototype.showMax = function (b) {
     this.showMax = b;
 };
 
-Scope.prototype.showMin = function(b) {
+Scope.prototype.showMin = function (b) {
     this.showMin = b;
 };
 
-Scope.prototype.showFreq = function(b) {
+Scope.prototype.showFreq = function (b) {
     this.showFreq = b;
 };
 
-Scope.prototype.setLockScale = function(b) {
+Scope.prototype.setLockScale = function (b) {
     this.lockScale = b;
 };
 
-Scope.prototype.resetGraph = function() {
+Scope.prototype.resetGraph = function () {
     this.scopePointCount = 1;
     while (this.scopePointCount <= this.rect.width)
         this.scopePointCount *= 2;
@@ -102,14 +102,14 @@ Scope.prototype.resetGraph = function() {
     this.allocImage();
 };
 
-Scope.prototype.active = function() {
-    if(this.elm)
+Scope.prototype.active = function () {
+    if (this.elm)
         return true;
 
     return false;
 };
 
-Scope.prototype.reset = function() {
+Scope.prototype.reset = function () {
     this.resetGraph();
     this.minMaxV = 5;
     this.minMaxI = .1;
@@ -127,12 +127,12 @@ Scope.prototype.reset = function() {
         this.value = this.VAL_VCE;
 };
 
-Scope.prototype.setRect = function(r) {
+Scope.prototype.setRect = function (r) {
     this.rect = r;
     this.resetGraph();
 };
 
-Scope.prototype.getWidth = function() {
+Scope.prototype.getWidth = function () {
     return this.rect.width;
 };
 
@@ -140,12 +140,12 @@ Scope.prototype.rightEdge = function () {
     return this.rect.x + this.rect.width;
 };
 
-Scope.prototype.setElm = function(ce) {
+Scope.prototype.setElm = function (ce) {
     this.elm = ce;
     this.reset();
 };
 
-Scope.prototype.timeStep = function() {
+Scope.prototype.timeStep = function () {
 
     if (this.elm == null)
         return;
@@ -197,7 +197,7 @@ Scope.prototype.timeStep = function() {
 
 };
 
-Scope.prototype.drawTo = function(x2, y2) {
+Scope.prototype.drawTo = function (x2, y2) {
     if (this.draw_ox == -1) {
         this.draw_ox = x2;
         this.draw_oy = y2;
@@ -226,19 +226,19 @@ Scope.prototype.drawTo = function(x2, y2) {
     this.draw_oy = y2;
 };
 
-Scope.prototype.clear2dView = function() {
+Scope.prototype.clear2dView = function () {
     var i;
     for (i = 0; i != this.dpixels.length; i++)
         this.dpixels[i] = 0;
     this.draw_ox = this.draw_oy = -1;
 };
 
-Scope.prototype.adjustScale = function(x) {
+Scope.prototype.adjustScale = function (x) {
     this.minMaxV *= x;
     this.minMaxI *= x;
 };
 
-Scope.prototype.draw2d = function() {
+Scope.prototype.draw2d = function () {
     console.log("Draw2D!");
     var i;
     if (this.pixels == null || this.dpixels == null)
@@ -263,7 +263,7 @@ Scope.prototype.draw2d = function() {
     //g.fillOval(this.rect.x + this.draw_ox - 2, this.rect.y + this.draw_oy - 2, 5, 5);
 
     paper.ellipse(this.rect.x + this.draw_ox - 2, this.rect.y + this.draw_oy - 2, 5, 5).attr({
-       stroke:Color.color2HexString(CircuitElement.whiteColor)
+        stroke:Color.color2HexString(CircuitElement.whiteColor)
     });
 
     var yt = this.rect.y + 10;
@@ -275,7 +275,7 @@ Scope.prototype.draw2d = function() {
     }
 };
 
-Scope.prototype.draw = function() {
+Scope.prototype.draw = function () {
     if (this.elm == null)
         return;
     if (this.plot2d) {
@@ -349,8 +349,8 @@ Scope.prototype.draw = function() {
         }
         // Draw sublines
         //for (i = 0; i != this.rect.width; i++)
-            //this.pixels[i + yl * this.rect.width] = col;
-            //paper.path( 'M'+ (this.rect.x + yl) + ' ' + this.rect.y + 'L' + (this.rect.x + yl) + ' ' + (this.rect.y+this.rect.height) );
+        //this.pixels[i + yl * this.rect.width] = col;
+        //paper.path( 'M'+ (this.rect.x + yl) + ' ' + this.rect.y + 'L' + (this.rect.x + yl) + ' ' + (this.rect.y+this.rect.height) );
 
         //console.log(yl);
     }
@@ -380,7 +380,7 @@ Scope.prototype.draw = function() {
         }
         //for (i = 0; i < this.pixels.length; i += this.rect.width)
         //    this.pixels[i + gx] = col;
-        paper.path( 'M'+ (gx) + ' ' + this.rect.y + 'L' + (gx) + ' ' + (this.rect.y+this.rect.height) ).attr('stroke', col, 'stroke-width', 0);
+        paper.path('M' + (gx) + ' ' + this.rect.y + 'L' + (gx) + ' ' + (this.rect.y + this.rect.height)).attr('stroke', col, 'stroke-width', 0);
     }
 
     // these two loops are pretty much the same, and should be combined!
@@ -403,8 +403,8 @@ Scope.prototype.draw = function() {
                     if (miniy == oy && maxiy == oy)
                         continue;
                     for (j = ox; j != x + i; j++) {
-                        console.log("(y - oy):  " + (y-oy));
-                        paper.path( 'M'+ this.rect.width * (y - oy) + ' ' + this.rect.y + 'L' + this.rect.width * (y - oy) + ' ' + (this.rect.y+this.rect.height) ).attr('stroke', curColor, 'stroke-width', 0);
+                        console.log("(y - oy):  " + (y - oy));
+                        paper.path('M' + this.rect.width * (y - oy) + ' ' + this.rect.y + 'L' + this.rect.width * (y - oy) + ' ' + (this.rect.y + this.rect.height)).attr('stroke', curColor, 'stroke-width', 0);
                         //this.pixels[j + this.rect.width * (y - oy)] = curColor;
                     }
                     ox = oy = -1;
@@ -416,7 +416,7 @@ Scope.prototype.draw = function() {
                 }
                 for (j = miniy; j <= maxiy; j++) {
                     console.log("(y - j):  " + (y - j));
-                    paper.path( 'M'+ (x+i) + ' ' + this.rect.y + 'L' + (x+i+1) + ' ' + (this.rect.y+this.rect.height) ).attr('stroke', curColor, 'stroke-width', 0);
+                    paper.path('M' + (x + i) + ' ' + this.rect.y + 'L' + (x + i + 1) + ' ' + (this.rect.y + this.rect.height)).attr('stroke', curColor, 'stroke-width', 0);
                     //this.pixels[x + i + this.rect.width * (y - j)] = curColor;
                 }
             }
@@ -424,8 +424,8 @@ Scope.prototype.draw = function() {
         if (ox != -1) {
             for (j = ox; j != x + i; j++) {
                 //this.pixels[j + this.rect.width * (y - oy)] = curColor;
-                console.log("(y - oy):  " + (y-oy));
-                paper.path( 'M'+ this.rect.width * (y - oy) + ' ' + this.rect.y + 'L' + this.rect.width * (y - oy) + ' ' + (this.rect.y+this.rect.height) ).attr('stroke', curColor, 'stroke-width', 0);
+                console.log("(y - oy):  " + (y - oy));
+                paper.path('M' + this.rect.width * (y - oy) + ' ' + this.rect.y + 'L' + this.rect.width * (y - oy) + ' ' + (this.rect.y + this.rect.height)).attr('stroke', curColor, 'stroke-width', 0);
             }
         }
     }
@@ -450,7 +450,7 @@ Scope.prototype.draw = function() {
                         //console.log("(y - oy):  " + (y-oy));
                         //paper.path( 'M'+ this.rect.width * (y - oy) + ' ' + this.rect.y + 'L' + this.rect.width * (y - oy) + ' ' + (this.rect.y+this.rect.height) ).attr('stroke', voltColor, 'stroke-width', 0);
                         //this.pixels[j + this.rect.width * (y - oy)] = voltColor;
-                        paper.path( 'M'+ (j) + ' ' + (y-oy) + 'L' + (j+1) + ' ' + (y-oy)+1).attr('stroke', voltColor);
+                        paper.path('M' + (j) + ' ' + (y - oy) + 'L' + (j + 1) + ' ' + (y - oy) + 1).attr('stroke', voltColor);
                     }
                     ox = oy = -1;
                 }
@@ -461,14 +461,14 @@ Scope.prototype.draw = function() {
                 }
                 for (j = minvy; j <= maxvy; j++) {
                     //console.log("(y - j) voltcolor1:  " + (y-j) + " " + voltColor + " j= " + j);
-                    paper.path( 'M'+ (x+i) + ' ' + (y-j) + 'L' + (x+i+ 1) + ' ' + (y-j+1)).attr('stroke', voltColor);
+                    paper.path('M' + (x + i) + ' ' + (y - j) + 'L' + (x + i + 1) + ' ' + (y - j + 1)).attr('stroke', voltColor);
                     //this.pixels[x + i + this.rect.width * (y - j)] = voltColor;
                 }
             }
         }
         if (ox != -1) {
             for (j = ox; j != x + i; j++) {
-                console.log("(y - oy) voltcolor:  " + (y-oy) + " j= " + j);
+                console.log("(y - oy) voltcolor:  " + (y - oy) + " j= " + j);
                 //this.pixels[j + this.rect.width * (y - oy)] = voltColor;
                 //paper.path( 'M'+ j + ' ' + (y-oy) + 'L' + j+ ' ' + 3*(y-oy)).attr('stroke', curColor);
             }
@@ -523,108 +523,108 @@ Scope.prototype.draw = function() {
         // console.log(freq + " " + periodstd + " " + periodct);
     }
 
-    paper.rect(this.rect.x, this.rect.y, this.rect.width, this.rect.height).attr({stroke: 'red'});
+    paper.rect(this.rect.x, this.rect.y, this.rect.width, this.rect.height).attr({stroke:'red'});
 
     //////////////////////////////////////////////////
     // RENDERING
     //////////////////////////////////////////////////
     /*
-    g.drawImage(this.image, this.rect.x, this.rect.y, null);
-    g.setColor(this.elm.whiteColor);
-    var yt = this.rect.y + 10;
-    x += this.rect.x;
-    if (this.showMax) {
-        if (this.value != 0)
-            g.drawString(this.elm.getUnitText(realMaxV,
-                this.elm.getScopeUnits(this.value)),
-                x, yt);
-        else if (this.showV)
-            g.drawString(this.elm.getVoltageText(realMaxV), x, yt);
-        else if (this.showI)
-            g.drawString(this.elm.getCurrentText(realMaxI), x, yt);
-        yt += 15;
-    }
-    if (this.showMin) {
-        var ym = this.rect.y + this.rect.height - 5;
-        if (this.value != 0)
-            g.drawString(this.elm.getUnitText(realMinV,
-                this.elm.getScopeUnits(this.value)),
-                x, ym);
-        else if (this.showV)
-            g.drawString(this.elm.getVoltageText(realMinV), x, ym);
-        else if (this.showI)
-            g.drawString(this.elm.getCurrentText(realMinI), x, ym);
-    }
-    if (this.text != null && this.rect.y + this.rect.height > yt + 5) {
-        g.drawString(this.text, x, yt);
-        yt += 15;
-    }
-    if (this.showFreq && freq != 0 && this.rect.y + this.rect.height > yt + 5)
-        g.drawString(this.elm.getUnitText(freq, "Hz"), x, yt);
-    if (this.ptr > 5 && !this.lockScale) {
-        if (!gotI && this.minMaxI > 1e-4)
-            this.minMaxI /= 2;
-        if (!gotV && this.minMaxV > 1e-4)
-            this.minMaxV /= 2;
-    }
-    */
+     g.drawImage(this.image, this.rect.x, this.rect.y, null);
+     g.setColor(this.elm.whiteColor);
+     var yt = this.rect.y + 10;
+     x += this.rect.x;
+     if (this.showMax) {
+     if (this.value != 0)
+     g.drawString(this.elm.getUnitText(realMaxV,
+     this.elm.getScopeUnits(this.value)),
+     x, yt);
+     else if (this.showV)
+     g.drawString(this.elm.getVoltageText(realMaxV), x, yt);
+     else if (this.showI)
+     g.drawString(this.elm.getCurrentText(realMaxI), x, yt);
+     yt += 15;
+     }
+     if (this.showMin) {
+     var ym = this.rect.y + this.rect.height - 5;
+     if (this.value != 0)
+     g.drawString(this.elm.getUnitText(realMinV,
+     this.elm.getScopeUnits(this.value)),
+     x, ym);
+     else if (this.showV)
+     g.drawString(this.elm.getVoltageText(realMinV), x, ym);
+     else if (this.showI)
+     g.drawString(this.elm.getCurrentText(realMinI), x, ym);
+     }
+     if (this.text != null && this.rect.y + this.rect.height > yt + 5) {
+     g.drawString(this.text, x, yt);
+     yt += 15;
+     }
+     if (this.showFreq && freq != 0 && this.rect.y + this.rect.height > yt + 5)
+     g.drawString(this.elm.getUnitText(freq, "Hz"), x, yt);
+     if (this.ptr > 5 && !this.lockScale) {
+     if (!gotI && this.minMaxI > 1e-4)
+     this.minMaxI /= 2;
+     if (!gotV && this.minMaxV > 1e-4)
+     this.minMaxV /= 2;
+     }
+     */
 };
 
-Scope.prototype.speedUp = function() {
+Scope.prototype.speedUp = function () {
     if (this.speed > 1) {
         this.speed /= 2;
         this.resetGraph();
     }
 };
 
-Scope.prototype.slowDown = function() {
+Scope.prototype.slowDown = function () {
     this.speed *= 2;
     this.resetGraph();
 };
 
 /*
-// Todo: implement
-Scope.prototype.getMenu = function() {
-    if (elm == null)
-        return null;
-    if (elm instanceof TransistorElm) {
-        sim.scopeIbMenuItem.setState(value == VAL_IB);
-        sim.scopeIcMenuItem.setState(value == VAL_IC);
-        sim.scopeIeMenuItem.setState(value == VAL_IE);
-        sim.scopeVbeMenuItem.setState(value == VAL_VBE);
-        sim.scopeVbcMenuItem.setState(value == VAL_VBC);
-        sim.scopeVceMenuItem.setState(value == VAL_VCE && ivalue != VAL_IC);
-        sim.scopeVceIcMenuItem.setState(value == VAL_VCE && ivalue == VAL_IC);
-        return sim.transScopeMenu;
-    } else {
-        sim.scopeVMenuItem.setState(showV && value == 0);
-        sim.scopeIMenuItem.setState(showI && value == 0);
-        sim.scopeMaxMenuItem.setState(showMax);
-        sim.scopeMinMenuItem.setState(showMin);
-        sim.scopeFreqMenuItem.setState(showFreq);
-        sim.scopePowerMenuItem.setState(value == VAL_POWER);
-        sim.scopeVIMenuItem.setState(plot2d && !plotXY);
-        sim.scopeXYMenuItem.setState(plotXY);
-        sim.scopeSelectYMenuItem.setEnabled(plotXY);
-        sim.scopeResistMenuItem.setState(value == VAL_R);
-        sim.scopeResistMenuItem.setEnabled(elm instanceof MemristorElm);
-        return sim.scopeMenu;
-    }
-}
-*/
-Scope.prototype.setValue = function(x) {
+ // Todo: implement
+ Scope.prototype.getMenu = function() {
+ if (elm == null)
+ return null;
+ if (elm instanceof TransistorElm) {
+ sim.scopeIbMenuItem.setState(value == VAL_IB);
+ sim.scopeIcMenuItem.setState(value == VAL_IC);
+ sim.scopeIeMenuItem.setState(value == VAL_IE);
+ sim.scopeVbeMenuItem.setState(value == VAL_VBE);
+ sim.scopeVbcMenuItem.setState(value == VAL_VBC);
+ sim.scopeVceMenuItem.setState(value == VAL_VCE && ivalue != VAL_IC);
+ sim.scopeVceIcMenuItem.setState(value == VAL_VCE && ivalue == VAL_IC);
+ return sim.transScopeMenu;
+ } else {
+ sim.scopeVMenuItem.setState(showV && value == 0);
+ sim.scopeIMenuItem.setState(showI && value == 0);
+ sim.scopeMaxMenuItem.setState(showMax);
+ sim.scopeMinMenuItem.setState(showMin);
+ sim.scopeFreqMenuItem.setState(showFreq);
+ sim.scopePowerMenuItem.setState(value == VAL_POWER);
+ sim.scopeVIMenuItem.setState(plot2d && !plotXY);
+ sim.scopeXYMenuItem.setState(plotXY);
+ sim.scopeSelectYMenuItem.setEnabled(plotXY);
+ sim.scopeResistMenuItem.setState(value == VAL_R);
+ sim.scopeResistMenuItem.setEnabled(elm instanceof MemristorElm);
+ return sim.scopeMenu;
+ }
+ }
+ */
+Scope.prototype.setValue = function (x) {
     this.reset();
     this.value = x;
 };
 
 
 // TODO: implement
-Scope.prototype.dump = function() {
+Scope.prototype.dump = function () {
     if (this.elm == null)
         return null;
 
     var flags = (this.showI ? 1 : 0) | (this.showV ? 2 : 0) |
-        (this.showMax ? 0 : 4) |   // showMax used to be always on
+        (this.showMax ? 0 : 4) | // showMax used to be always on
         (this.showFreq ? 8 : 0) |
         (this.lockScale ? 16 : 0) | (this.plot2d ? 64 : 0) |
         (this.plotXY ? 128 : 0) | (this.showMin ? 256 : 0);
@@ -648,10 +648,10 @@ Scope.prototype.dump = function() {
 };
 
 
-Scope.prototype.undump = function(st) {
+Scope.prototype.undump = function (st) {
     this.reset();
 
-    if(typeof st == 'string') {
+    if (typeof st == 'string') {
         st = st.split(' ');
     }
 
@@ -661,22 +661,22 @@ Scope.prototype.undump = function(st) {
 
     this.elm = CirSim.getElm(e);
 
-    if(speed = st.shift())
+    if (speed = st.shift())
         this.speed = parseInt(speed);
 
-    if(value = st.shift())
+    if (value = st.shift())
         this.value = parseInt(value);
 
     var flags
-    if( flags = st.shift())
+    if (flags = st.shift())
         flags = parseInt(st.shift());
     else
         flags = 0;
 
-    if(minMaxV = st.shift())
+    if (minMaxV = st.shift())
         this.minMaxV = parseFloat(minMaxV);
 
-    if(minMaxI = st.shift())
+    if (minMaxI = st.shift())
         this.minMaxI = parseFloat(minMaxI);
 
     if (this.minMaxV == 0)
@@ -688,7 +688,7 @@ Scope.prototype.undump = function(st) {
     this.yElm = null;
 
     try {
-        if( position = st.shift() )
+        if (position = st.shift())
             this.position = parseInt(position);
         var ye = -1;
         if ((this.flags & Scope.FLAG_YELM) != 0) {
@@ -716,7 +716,7 @@ Scope.prototype.undump = function(st) {
 };
 
 
-Scope.prototype.allocImage = function() {
+Scope.prototype.allocImage = function () {
     //this.pixels = null;
     var w = this.rect.width;
     var h = this.rect.height;
@@ -724,110 +724,109 @@ Scope.prototype.allocImage = function() {
     if (w == 0 || h == 0)
         return;
 
-    this.pixels = new Array(w*h);
-    this.dpixels = new Array(w*h);
-    for( var i=0; i<w*h; ++i ) {
+    this.pixels = new Array(w * h);
+    this.dpixels = new Array(w * h);
+    for (var i = 0; i < w * h; ++i) {
         this.pixels[i] = 0;
         this.dpixels[i] = 0;
     }
 
     /*
-    if (sim.useBufferedImage) {
-        try {
-//             simulate the following code using reflection:
-//             dbimage = new BufferedImage(d.width, d.height,
-//             BufferedImage.TYPE_INT_RGB);
-//             DataBuffer db = (DataBuffer)(((BufferedImage)dbimage).
-//             getRaster().getDataBuffer());
-//             DataBufferInt dbi = (DataBufferInt) db;
-//             pixels = dbi.getData();
+     if (sim.useBufferedImage) {
+     try {
+     //             simulate the following code using reflection:
+     //             dbimage = new BufferedImage(d.width, d.height,
+     //             BufferedImage.TYPE_INT_RGB);
+     //             DataBuffer db = (DataBuffer)(((BufferedImage)dbimage).
+     //             getRaster().getDataBuffer());
+     //             DataBufferInt dbi = (DataBufferInt) db;
+     //             pixels = dbi.getData();
 
-            Class biclass = Class.forName("java.awt.image.BufferedImage");
-            Class dbiclass = Class.forName("java.awt.image.DataBufferInt");
-            Class rasclass = Class.forName("java.awt.image.Raster");
-            Constructor cstr = biclass.getConstructor(
-                new Class[]{int.class, int.class, int.class});
-            image = (Image) cstr.newInstance(new Object[]{
-                new Integer(w), new Integer(h),
-                    new Integer(BufferedImage.TYPE_INT_RGB)});
-            Method m = biclass.getMethod("getRaster");
-            Object ras = m.invoke(image);
-            Object db = rasclass.getMethod("getDataBuffer").invoke(ras);
-            pixels = (int[])
-            dbiclass.getMethod("getData").invoke(db);
-        } catch (Exception ee) {
-            // ee.printStackTrace();
-            console.log("BufferedImage failed");
-        }
-    }
-    if (pixels == null) {
-        pixels = new int[w * h];
-        int i;
-        for (i = 0; i != w * h; i++)
-            pixels[i] = 0xFF000000;
-        imageSource = new MemoryImageSource(w, h, pixels, 0, w);
-        imageSource.setAnimated(true);
-        imageSource.setFullBufferUpdates(true);
-        image = sim.cv.createImage(imageSource);
-    }
-    dpixels = new float[w * h];
-    */
+     Class biclass = Class.forName("java.awt.image.BufferedImage");
+     Class dbiclass = Class.forName("java.awt.image.DataBufferInt");
+     Class rasclass = Class.forName("java.awt.image.Raster");
+     Constructor cstr = biclass.getConstructor(
+     new Class[]{int.class, int.class, int.class});
+     image = (Image) cstr.newInstance(new Object[]{
+     new Integer(w), new Integer(h),
+     new Integer(BufferedImage.TYPE_INT_RGB)});
+     Method m = biclass.getMethod("getRaster");
+     Object ras = m.invoke(image);
+     Object db = rasclass.getMethod("getDataBuffer").invoke(ras);
+     pixels = (int[])
+     dbiclass.getMethod("getData").invoke(db);
+     } catch (Exception ee) {
+     // ee.printStackTrace();
+     console.log("BufferedImage failed");
+     }
+     }
+     if (pixels == null) {
+     pixels = new int[w * h];
+     int i;
+     for (i = 0; i != w * h; i++)
+     pixels[i] = 0xFF000000;
+     imageSource = new MemoryImageSource(w, h, pixels, 0, w);
+     imageSource.setAnimated(true);
+     imageSource.setFullBufferUpdates(true);
+     image = sim.cv.createImage(imageSource);
+     }
+     dpixels = new float[w * h];
+     */
     this.draw_ox = this.draw_oy = -1;
 }
 
 
-
 /*
-void handleMenu(ItemEvent e, Object mi) {
-    if (mi == sim.scopeVMenuItem)
-        showVoltage(sim.scopeVMenuItem.getState());
-    if (mi == sim.scopeIMenuItem)
-        showCurrent(sim.scopeIMenuItem.getState());
-    if (mi == sim.scopeMaxMenuItem)
-        showMax(sim.scopeMaxMenuItem.getState());
-    if (mi == sim.scopeMinMenuItem)
-        showMin(sim.scopeMinMenuItem.getState());
-    if (mi == sim.scopeFreqMenuItem)
-        showFreq(sim.scopeFreqMenuItem.getState());
-    if (mi == sim.scopePowerMenuItem)
-        setValue(VAL_POWER);
-    if (mi == sim.scopeIbMenuItem)
-        setValue(VAL_IB);
-    if (mi == sim.scopeIcMenuItem)
-        setValue(VAL_IC);
-    if (mi == sim.scopeIeMenuItem)
-        setValue(VAL_IE);
-    if (mi == sim.scopeVbeMenuItem)
-        setValue(VAL_VBE);
-    if (mi == sim.scopeVbcMenuItem)
-        setValue(VAL_VBC);
-    if (mi == sim.scopeVceMenuItem)
-        setValue(VAL_VCE);
-    if (mi == sim.scopeVceIcMenuItem) {
-        plot2d = true;
-        plotXY = false;
-        value = VAL_VCE;
-        ivalue = VAL_IC;
-        resetGraph();
-    }
+ void handleMenu(ItemEvent e, Object mi) {
+ if (mi == sim.scopeVMenuItem)
+ showVoltage(sim.scopeVMenuItem.getState());
+ if (mi == sim.scopeIMenuItem)
+ showCurrent(sim.scopeIMenuItem.getState());
+ if (mi == sim.scopeMaxMenuItem)
+ showMax(sim.scopeMaxMenuItem.getState());
+ if (mi == sim.scopeMinMenuItem)
+ showMin(sim.scopeMinMenuItem.getState());
+ if (mi == sim.scopeFreqMenuItem)
+ showFreq(sim.scopeFreqMenuItem.getState());
+ if (mi == sim.scopePowerMenuItem)
+ setValue(VAL_POWER);
+ if (mi == sim.scopeIbMenuItem)
+ setValue(VAL_IB);
+ if (mi == sim.scopeIcMenuItem)
+ setValue(VAL_IC);
+ if (mi == sim.scopeIeMenuItem)
+ setValue(VAL_IE);
+ if (mi == sim.scopeVbeMenuItem)
+ setValue(VAL_VBE);
+ if (mi == sim.scopeVbcMenuItem)
+ setValue(VAL_VBC);
+ if (mi == sim.scopeVceMenuItem)
+ setValue(VAL_VCE);
+ if (mi == sim.scopeVceIcMenuItem) {
+ plot2d = true;
+ plotXY = false;
+ value = VAL_VCE;
+ ivalue = VAL_IC;
+ resetGraph();
+ }
 
-    if (mi == sim.scopeVIMenuItem) {
-        plot2d = sim.scopeVIMenuItem.getState();
-        plotXY = false;
-        resetGraph();
-    }
-    if (mi == sim.scopeXYMenuItem) {
-        plotXY = plot2d = sim.scopeXYMenuItem.getState();
-        if (yElm == null)
-            selectY();
-        resetGraph();
-    }
-    if (mi == sim.scopeResistMenuItem)
-        setValue(VAL_R);
-}
-*/
+ if (mi == sim.scopeVIMenuItem) {
+ plot2d = sim.scopeVIMenuItem.getState();
+ plotXY = false;
+ resetGraph();
+ }
+ if (mi == sim.scopeXYMenuItem) {
+ plotXY = plot2d = sim.scopeXYMenuItem.getState();
+ if (yElm == null)
+ selectY();
+ resetGraph();
+ }
+ if (mi == sim.scopeResistMenuItem)
+ setValue(VAL_R);
+ }
+ */
 
-Scope.prototype.select = function() {
+Scope.prototype.select = function () {
     CirSim.mouseElm = this.elm;
     if (this.plotXY) {
         CirSim.plotXElm = this.elm;
@@ -835,7 +834,7 @@ Scope.prototype.select = function() {
     }
 };
 
-Scope.prototype.selectY = function() {
+Scope.prototype.selectY = function () {
     var e = this.yElm == null ? -1 : CirSim.locateElm(this.yElm);
     var firstE = e;
     while (true) {

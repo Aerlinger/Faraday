@@ -14,14 +14,14 @@ VoltageElm.WF_VAR = 6;
 
 VoltageElm.prototype.waveform = VoltageElm.WF_DC;
 
-VoltageElm.prototype.frequency  = 40;
+VoltageElm.prototype.frequency = 40;
 VoltageElm.prototype.maxVoltage = 5;
 VoltageElm.prototype.freqTimeZero = 0;
-VoltageElm.prototype.bias       = 0;
+VoltageElm.prototype.bias = 0;
 VoltageElm.prototype.phaseShift = 0;
-VoltageElm.prototype.dutyCycle  = .5;
+VoltageElm.prototype.dutyCycle = .5;
 
-function VoltageElm( xa, ya, xb, yb, f, st ) {
+function VoltageElm(xa, ya, xb, yb, f, st) {
 
     CircuitElement.call(this, xa, ya, xb, yb, f, st);
 
@@ -31,63 +31,64 @@ function VoltageElm( xa, ya, xb, yb, f, st ) {
     this.dutyCycle = 0.5;
 
 
-    if(st) {
-        if( typeof st == 'string' )
+    if (st) {
+        if (typeof st == 'string')
             st = st.split(" ");
 
-        this.waveform   = st[0] ? Math.floor( parseInt(st[0]) ) : VoltageElm.WF_DC;
-        this.frequency  = st[1] ? parseFloat(st[1]) : 40;
+        this.waveform = st[0] ? Math.floor(parseInt(st[0])) : VoltageElm.WF_DC;
+        this.frequency = st[1] ? parseFloat(st[1]) : 40;
         this.maxVoltage = st[2] ? parseFloat(st[2]) : 5;
-        this.bias       = st[3] ? parseFloat(st[3]) : 0;
+        this.bias = st[3] ? parseFloat(st[3]) : 0;
         this.phaseShift = st[4] ? parseFloat(st[4]) : 0;
-        this.dutyCycle  = st[5] ? parseFloat(st[5]) : .5;
+        this.dutyCycle = st[5] ? parseFloat(st[5]) : .5;
     }
 
-    if( this.flags&VoltageElm.FLAG_COS != 0) {
+    if (this.flags & VoltageElm.FLAG_COS != 0) {
         this.flags &= ~VoltageElm.FLAG_COS;
 
-        this.phaseShift = Math.PI/2;
+        this.phaseShift = Math.PI / 2;
     }
 
     this.reset();
 
-};
+}
+;
 
 
-VoltageElm.prototype.getDumpType = function() {
+VoltageElm.prototype.getDumpType = function () {
     return 'v';
 };
 
-VoltageElm.prototype.dump = function() {
+VoltageElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.waveform + " " + this.frequency + " " +
         this.maxVoltage + " " + this.bias + " " + this.phaseShift + " " + this.dutyCycle;
 };
 
-VoltageElm.prototype.reset = function() {
+VoltageElm.prototype.reset = function () {
     this.freqTimeZero = 0;
     this.curcount = 5;
 };
 
-VoltageElm.prototype.triangleFunc = function(x) {
+VoltageElm.prototype.triangleFunc = function (x) {
     if (x < Math.PI)
         return x * (2 / Math.PI) - 1;
 
     return 1 - (x - Math.PI) * (2 / Math.PI);
 };
 
-VoltageElm.prototype.stamp = function() {
+VoltageElm.prototype.stamp = function () {
     if (this.waveform == VoltageElm.WF_DC)
         CirSim.stampVoltageSource(this.nodes[0], this.nodes[1], this.voltSource, this.getVoltage());
     else
         CirSim.stampVoltageSource(this.nodes[0], this.nodes[1], this.voltSource);
 };
 
-VoltageElm.prototype.doStep = function() {
+VoltageElm.prototype.doStep = function () {
     if (this.waveform != VoltageElm.WF_DC)
         CirSim.updateVoltageSource(this.nodes[0], this.nodes[1], this.voltSource, this.getVoltage());
 };
 
-VoltageElm.prototype.getVoltage = function() {
+VoltageElm.prototype.getVoltage = function () {
     var w = 2 * Math.PI * (CirSim.t - this.freqTimeZero) * this.frequency + this.phaseShift;
 
     switch (this.waveform) {
@@ -111,12 +112,12 @@ VoltageElm.prototype.getVoltage = function() {
 
 VoltageElm.circleSize = 17;
 
-VoltageElm.prototype.setPoints = function() {
+VoltageElm.prototype.setPoints = function () {
     CircuitElement.prototype.setPoints.call(this);
-    this.calcLeads( (this.waveform == VoltageElm.WF_DC || this.waveform == VoltageElm.WF_VAR) ? 8 : VoltageElm.circleSize *2);
+    this.calcLeads((this.waveform == VoltageElm.WF_DC || this.waveform == VoltageElm.WF_VAR) ? 8 : VoltageElm.circleSize * 2);
 };
 
-VoltageElm.prototype.draw = function() {
+VoltageElm.prototype.draw = function () {
     this.setBbox(this.x, this.y, this.x2, this.y2);
     this.draw2Leads();
     if (this.waveform == VoltageElm.WF_DC) {
@@ -130,7 +131,7 @@ VoltageElm.prototype.draw = function() {
         CircuitElement.interpPoint2(this.lead1, this.lead2, CircuitElement.ps1, CircuitElement.ps2, 1, hs);
         CircuitElement.drawThickLinePt(CircuitElement.ps1, CircuitElement.ps2, color);
     } else {
-        this.setBboxPt(this.point1, this.point2, VoltageElm.circleSize );
+        this.setBboxPt(this.point1, this.point2, VoltageElm.circleSize);
         CircuitElement.interpPoint(this.lead1, this.lead2, CircuitElement.ps1, .5);
         this.drawWaveform(CircuitElement.ps1);
     }
@@ -148,7 +149,7 @@ VoltageElm.prototype.draw = function() {
     this.drawPosts();
 };
 
-VoltageElm.prototype.drawWaveform = function( center ) {
+VoltageElm.prototype.drawWaveform = function (center) {
 
     var color = this.needsHighlight() ? CircuitElement.selectColor : Settings.FG_COLOR;
 
@@ -168,7 +169,8 @@ VoltageElm.prototype.drawWaveform = function( center ) {
 
     var xc2;
     switch (this.waveform) {
-        case VoltageElm.WF_DC: {
+        case VoltageElm.WF_DC:
+        {
             break;
         }
         case VoltageElm.WF_SQUARE:
@@ -192,7 +194,8 @@ VoltageElm.prototype.drawWaveform = function( center ) {
             CircuitElement.drawThickLine(xc, yc - wl, xc, yc + wl, color);
             CircuitElement.drawThickLine(xc, yc + wl, xc + wl, yc, color);
             break;
-        case VoltageElm.WF_TRIANGLE: {
+        case VoltageElm.WF_TRIANGLE:
+        {
             var xl = 5;
             CircuitElement.drawThickLine(xc - xl * 2, yc, xc - xl, yc - wl, color);
             CircuitElement.drawThickLine(xc - xl, yc - wl, xc, yc, color);
@@ -200,7 +203,8 @@ VoltageElm.prototype.drawWaveform = function( center ) {
             CircuitElement.drawThickLine(xc + xl, yc + wl, xc + xl * 2, yc, color);
             break;
         }
-        case VoltageElm.WF_AC: {
+        case VoltageElm.WF_AC:
+        {
             var i;
             var xl = 10;
             var ox = -1;
@@ -222,19 +226,19 @@ VoltageElm.prototype.drawWaveform = function( center ) {
     }
 };
 
-VoltageElm.prototype.getVoltageSourceCount = function() {
+VoltageElm.prototype.getVoltageSourceCount = function () {
     return 1;
 };
 
-VoltageElm.prototype.getPower = function() {
+VoltageElm.prototype.getPower = function () {
     return -this.getVoltageDiff() * this.current;
 };
 
-VoltageElm.prototype.getVoltageDiff = function() {
+VoltageElm.prototype.getVoltageDiff = function () {
     return this.volts[1] - this.volts[0];
 };
 
-VoltageElm.prototype.getInfo = function(arr) {
+VoltageElm.prototype.getInfo = function (arr) {
     switch (this.waveform) {
         case VoltageElm.WF_DC:
         case VoltageElm.WF_VAR:
@@ -274,20 +278,20 @@ VoltageElm.prototype.getInfo = function(arr) {
     }
 };
 
-VoltageElm.prototype.getEditInfo = function(n) {
+VoltageElm.prototype.getEditInfo = function (n) {
     if (n == 0)
         return new EditInfo(this.waveform == VoltageElm.WF_DC ? "Voltage" :
             "Max Voltage", this.maxVoltage, -20, 20);
     if (n == 1) {
         var ei = new EditInfo("Waveform", this.waveform, -1, -1);
-				ei.choice = new Array();
-				ei.choice.push("D/C");
-				ei.choice.push("A/C");
-				ei.choice.push("Square Wave");
-				ei.choice.push("Triangle");
-				ei.choice.push("Sawtooth");
-				ei.choice.push("Pulse");
-				ei.choice.push(this.waveform);
+        ei.choice = new Array();
+        ei.choice.push("D/C");
+        ei.choice.push("A/C");
+        ei.choice.push("Square Wave");
+        ei.choice.push("Triangle");
+        ei.choice.push("Sawtooth");
+        ei.choice.push("Pulse");
+        ei.choice.push(this.waveform);
         return ei;
     }
     if (this.waveform == VoltageElm.WF_DC)
@@ -303,7 +307,7 @@ VoltageElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-VoltageElm.prototype.setEditValue = function(n, ei) {
+VoltageElm.prototype.setEditValue = function (n, ei) {
     if (n == 0)
         this.maxVoltage = ei.value;
     if (n == 3)
@@ -337,6 +341,6 @@ VoltageElm.prototype.setEditValue = function(n, ei) {
         this.dutyCycle = ei.value * .01;
 };
 
-VoltageElm.prototype.toString = function() {
+VoltageElm.prototype.toString = function () {
     return "VoltageElm";
 };

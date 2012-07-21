@@ -1,4 +1,3 @@
-
 //Inductor.FLAG_BACK_EULER = 2;
 Diode.prototype.leakage = 1e-14;
 
@@ -13,9 +12,10 @@ function Diode() {
     this.zoffset = 0;
     this.lastvoltdiff = 0;
     this.crit = 0;
-};
+}
+;
 
-Diode.prototype.setup = function( fw, zv) {
+Diode.prototype.setup = function (fw, zv) {
 
     this.fwdrop = fw;
     this.zvoltage = zv;
@@ -34,11 +34,11 @@ Diode.prototype.setup = function( fw, zv) {
     }
 };
 
-Diode.prototype.reset = function() {
+Diode.prototype.reset = function () {
     this.lastvoltdiff = 0;
 };
 
-Diode.prototype.limitStep = function( vnew, vold ) {
+Diode.prototype.limitStep = function (vnew, vold) {
     var arg;
     var oo = vnew;
 
@@ -98,7 +98,7 @@ Diode.prototype.stamp = function (n0, n1) {
     CirSim.stampNonLinear(this.nodes[1]);
 }
 
-Diode.prototype.doStep = function( voltdiff ) {
+Diode.prototype.doStep = function (voltdiff) {
     // used to have .1 here, but needed .01 for peak detector
     if (Math.abs(voltdiff - CirSim.lastvoltdiff) > .01)
         CirSim.converged = false;
@@ -139,8 +139,8 @@ Diode.prototype.doStep = function( voltdiff ) {
     }
 };
 
-Diode.prototype.calculateCurrent = function( voltdiff )  {
+Diode.prototype.calculateCurrent = function (voltdiff) {
     if (voltdiff >= 0 || this.zvoltage == 0)
         return this.leakage * (Math.exp(voltdiff * this.vdcoef) - 1);
-    return this.leakage * (Math.exp(voltdiff*this.vdcoef)- Math.exp((-voltdiff-this.zoffset)*this.vdcoef)-1);
+    return this.leakage * (Math.exp(voltdiff * this.vdcoef) - Math.exp((-voltdiff - this.zoffset) * this.vdcoef) - 1);
 };

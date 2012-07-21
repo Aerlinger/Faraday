@@ -3,24 +3,25 @@ RailElm.prototype.constructor = RailElm;
 
 RailElm.FLAG_CLOCK = 1;
 
-function RailElm( xa, ya, xb, yb, f, st ) {
+function RailElm(xa, ya, xb, yb, f, st) {
     VoltageElm.call(this, xa, ya, xb, yb, f, st);
-};
+}
+;
 
-RailElm.prototype.getDumpType = function() {
+RailElm.prototype.getDumpType = function () {
     return 'R';
 };
 
-RailElm.prototype.getPostCount = function() {
+RailElm.prototype.getPostCount = function () {
     return 1;
 };
 
-RailElm.prototype.setPoints = function() {
+RailElm.prototype.setPoints = function () {
     VoltageElm.prototype.setPoints.call(this);
-    this.lead1 = CircuitElement.interpPointPt(this.point1, this.point2, 1-VoltageElm.circleSize/this.dn);
+    this.lead1 = CircuitElement.interpPointPt(this.point1, this.point2, 1 - VoltageElm.circleSize / this.dn);
 };
 
-RailElm.prototype.draw = function() {
+RailElm.prototype.draw = function () {
 
     this.setBboxPt(this.point1, this.point2, this.circleSize);
     var color = this.setVoltageColor(this.volts[0]);
@@ -54,22 +55,22 @@ RailElm.prototype.draw = function() {
 
 };
 
-RailElm.prototype.getVoltageDiff = function() {
+RailElm.prototype.getVoltageDiff = function () {
     return this.volts[0];
 };
 
-RailElm.prototype.stamp = function() {
+RailElm.prototype.stamp = function () {
     if (this.waveform == VoltageElm.WF_DC)
         CirSim.stampVoltageSource(0, this.nodes[0], this.voltSource, this.getVoltage());
     else
         CirSim.stampVoltageSource(0, this.nodes[0], this.voltSource);
 };
 
-RailElm.prototype.doStep = function() {
+RailElm.prototype.doStep = function () {
     if (this.waveform != VoltageElm.WF_DC)
         CirSim.updateVoltageSource(0, this.nodes[0], this.voltSource, this.getVoltage());
 };
 
-RailElm.prototype.hasGroundConnection = function(n1) {
+RailElm.prototype.hasGroundConnection = function (n1) {
     return true;
 };

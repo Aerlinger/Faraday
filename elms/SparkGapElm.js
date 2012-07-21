@@ -1,7 +1,7 @@
 SparkGapElm.prototype = new CircuitElement();
 SparkGapElm.prototype.constructor = SparkGapElm;
 
-function SparkGapElm( xa, ya, xb, yb, f, st ) {
+function SparkGapElm(xa, ya, xb, yb, f, st) {
 
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
@@ -12,27 +12,28 @@ function SparkGapElm( xa, ya, xb, yb, f, st ) {
     this.holdcurrent = 0.001;
     this.state = false;
 
-    if( st ) {
-        if( typeof st == 'string' )
+    if (st) {
+        if (typeof st == 'string')
             st = st.split(' ');
 
-        this.onresistance = parseFloat(st.shift());
-        this.offresistance = parseFloat(st.shift());
-        this.breakdown = parseFloat(st.shift());
-        this.holdcurrent = parseFloat(st.shift());
+        if (st) this.onresistance = parseFloat(st.shift());
+        if (st) this.offresistance = parseFloat(st.shift());
+        if (st) this.breakdown = parseFloat(st.shift());
+        if (st) this.holdcurrent = parseFloat(st.shift());
     }
 
-};
+}
+;
 
-SparkGapElm.prototype.nonLinear = function() {
+SparkGapElm.prototype.nonLinear = function () {
     return true;
 };
 
-SparkGapElm.prototype.getDumpType = function() {
+SparkGapElm.prototype.getDumpType = function () {
     return 187;
 };
 
-SparkGapElm.prototype.dump = function() {
+SparkGapElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.onresistance + " " + this.offresistance + " "
         + this.breakdown + " " + this.holdcurrent;
 };
@@ -40,7 +41,7 @@ SparkGapElm.prototype.dump = function() {
 SparkGapElm.prototype.arrow1; // Polgons
 SparkGapElm.prototype.arrow2;
 
-SparkGapElm.prototype.setPoints = function() {
+SparkGapElm.prototype.setPoints = function () {
     CircuitElement.prototype.setPoints.call(this);
     var dist = 16;
     var alen = 8;
@@ -51,7 +52,7 @@ SparkGapElm.prototype.setPoints = function() {
     this.arrow2 = CircuitElement.calcArrow(this.point2, p1, alen, alen);
 };
 
-SparkGapElm.prototype.draw = function() {
+SparkGapElm.prototype.draw = function () {
     var i;
     var v1 = this.volts[0];
     var v2 = this.volts[1];
@@ -68,17 +69,17 @@ SparkGapElm.prototype.draw = function() {
     this.drawPosts();
 };
 
-SparkGapElm.prototype.calculateCurrent = function() {
+SparkGapElm.prototype.calculateCurrent = function () {
     var vd = this.volts[0] - this.volts[1];
     this.current = vd / this.resistance;
 };
 
-SparkGapElm.prototype.reset = function() {
+SparkGapElm.prototype.reset = function () {
     CircuitElement.prototype.reset.call(this);
     this.state = false;
 };
 
-SparkGapElm.prototype.startIteration = function() {
+SparkGapElm.prototype.startIteration = function () {
     if (Math.abs(this.current) < this.holdcurrent)
         this.state = false;
     var vd = this.volts[0] - this.volts[1];
@@ -86,17 +87,17 @@ SparkGapElm.prototype.startIteration = function() {
         this.state = true;
 };
 
-SparkGapElm.prototype.doStep = function() {
+SparkGapElm.prototype.doStep = function () {
     this.resistance = (this.state) ? this.onresistance : this.offresistance;
     CirSim.stampResistor(this.nodes[0], this.nodes[1], this.resistance);
 };
 
-SparkGapElm.prototype.stamp = function() {
+SparkGapElm.prototype.stamp = function () {
     CirSim.stampNonLinear(this.nodes[0]);
     CirSim.stampNonLinear(this.nodes[1]);
 };
 
-SparkGapElm.prototype.getInfo = function(arr) {
+SparkGapElm.prototype.getInfo = function (arr) {
     arr[0] = "spark gap";
     this.getBasicInfo(arr);
     arr[3] = this.state ? "on" : "off";
@@ -105,23 +106,22 @@ SparkGapElm.prototype.getInfo = function(arr) {
     arr[6] = "Vbreakdown = " + CircuitElement.getUnitText(this.breakdown, "V");
 };
 
-SparkGapElm.prototype.getEditInfo = function(n) {
+SparkGapElm.prototype.getEditInfo = function (n) {
     // ohmString doesn't work here on linux
-    /*
+
     if (n == 0)
-        return new EditInfo("On resistance (ohms)", onresistance, 0, 0);
+        return new EditInfo("On resistance (ohms)", this.onresistance, 0, 0);
     if (n == 1)
-        return new EditInfo("Off resistance (ohms)", offresistance, 0, 0);
+        return new EditInfo("Off resistance (ohms)", this.offresistance, 0, 0);
     if (n == 2)
-        return new EditInfo("Breakdown voltage", breakdown, 0, 0);
+        return new EditInfo("Breakdown voltage", this.breakdown, 0, 0);
     if (n == 3)
-        return new EditInfo("Holding current (A)", holdcurrent, 0, 0);
+        return new EditInfo("Holding current (A)", this.holdcurrent, 0, 0);
     return null;
-    */
+
 };
 
-SparkGapElm.prototype.getEditInfo = function(n, ei) {
-    /*
+SparkGapElm.prototype.getEditInfo = function (n, ei) {
     if (ei.value > 0 && n == 0)
         onresistance = ei.value;
     if (ei.value > 0 && n == 1)
@@ -130,9 +130,8 @@ SparkGapElm.prototype.getEditInfo = function(n, ei) {
         breakdown = ei.value;
     if (ei.value > 0 && n == 3)
         holdcurrent = ei.value;
-        */
 };
 
-SparkGapElm.prototype.needsShortcut = function() {
+SparkGapElm.prototype.needsShortcut = function () {
     return false;
 };

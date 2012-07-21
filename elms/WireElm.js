@@ -7,21 +7,22 @@ WireElm.FLAG_SHOWCURRENT = 1;
 WireElm.FLAG_SHOWVOLTAGE = 2;
 
 
-function WireElm( xa, ya, xb, yb, f, st ) {
+function WireElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f, st);
-};
+}
+;
 
-WireElm.prototype.draw = function() {
+WireElm.prototype.draw = function () {
     var color = this.setVoltageColor(this.volts[0]);
 
     CircuitElement.drawThickLinePt(this.point1, this.point2, color);
     this.doDots();
     this.setBboxPt(this.point1, this.point2, 3);
 
-    if( this.mustShowCurrent() ) {
-        var s = CircuitElement.getShortUnitText( Math.abs(this.getCurrent()), "A" );
+    if (this.mustShowCurrent()) {
+        var s = CircuitElement.getShortUnitText(Math.abs(this.getCurrent()), "A");
         this.drawValues(s, 4);
-    } else if(this.mustShowVoltage()) {
+    } else if (this.mustShowVoltage()) {
         var s = CircuitElement.getShortUnitText(this.volts[0], "V");
         this.drawValues(s, 4);
     }
@@ -30,30 +31,30 @@ WireElm.prototype.draw = function() {
 
 };
 
-WireElm.prototype.stamp = function() {
+WireElm.prototype.stamp = function () {
     CirSim.stampVoltageSource(this.nodes[0], this.nodes[1], this.voltSource, 0);
 };
 
-WireElm.prototype.mustShowCurrent = function() {
+WireElm.prototype.mustShowCurrent = function () {
     return (this.flags & WireElm.FLAG_SHOWCURRENT) != 0;
 };
 
-WireElm.prototype.mustShowVoltage = function() {
+WireElm.prototype.mustShowVoltage = function () {
     return (this.flags & WireElm.FLAG_SHOWVOLTAGE) != 0;
 };
 
-WireElm.prototype.getVoltageSourceCount = function() {
+WireElm.prototype.getVoltageSourceCount = function () {
     return 1;
 };
 
-WireElm.prototype.getInfo = function(arr)  {
+WireElm.prototype.getInfo = function (arr) {
     arr[0] = "Wire";
 
     arr[1] = "I = " + CircuitElement.getCurrentDText(this.getCurrent());
     arr[2] = "V = " + CircuitElement.getVoltageText(this.volts[0]);
 };
 
-WireElm.prototype.getEditInfo = function(n) {
+WireElm.prototype.getEditInfo = function (n) {
     // TODO:
 //    if(n==0) {
 //        var ei:EditInfo = new EditInfo("", 0, -1, -1);
@@ -68,7 +69,7 @@ WireElm.prototype.getEditInfo = function(n) {
 //    return null;
 };
 
-WireElm.prototype.setEditValue = function(n, ei) {
+WireElm.prototype.setEditValue = function (n, ei) {
     // TODO:
 //    if(n==0) {
 //        if(ei.isChecked)
@@ -84,22 +85,22 @@ WireElm.prototype.setEditValue = function(n, ei) {
 //    }
 };
 
-WireElm.prototype.getDumpType = function() {
+WireElm.prototype.getDumpType = function () {
     return 'w';
 };
 
-WireElm.prototype.getPower = function() {
+WireElm.prototype.getPower = function () {
     return 0;
 };
 
-WireElm.prototype.getVoltageDiff = function() {
+WireElm.prototype.getVoltageDiff = function () {
     return this.volts[0];
 };
 
-WireElm.prototype.isWire = function() {
+WireElm.prototype.isWire = function () {
     return true;
 };
 
-WireElm.prototype.needsShortcut = function() {
+WireElm.prototype.needsShortcut = function () {
     return true;
 };

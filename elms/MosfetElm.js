@@ -1,7 +1,7 @@
 MosfetElm.prototype = new CircuitElement();
 MosfetElm.prototype.constructor = MosfetElm;
 
-function MosfetElm( xa, ya, xb, yb, f, st ) {
+function MosfetElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
     this.pnp = ((f & MosfetElm.FLAG_PNP) != 0) ? -1 : 1;
@@ -9,15 +9,16 @@ function MosfetElm( xa, ya, xb, yb, f, st ) {
     this.vt = this.getDefaultThreshold();
 
     try {
-        if( st && st.length > 0 ) {
-            if( typeof st == 'string')
+        if (st && st.length > 0) {
+            if (typeof st == 'string')
                 st = st.split(' ');
             this.vt = st[0];
         }
 
     } catch (e) {
     }
-};
+}
+;
 
 MosfetElm.prototype.pnp;
 MosfetElm.FLAG_PNP = 1;
@@ -42,30 +43,30 @@ MosfetElm.prototype.getBeta = function () {
     return .02;
 };
 
-MosfetElm.prototype.nonLinear = function() {
+MosfetElm.prototype.nonLinear = function () {
     return true;
 };
 
-MosfetElm.prototype.drawDigital = function() {
+MosfetElm.prototype.drawDigital = function () {
     return (this.flags & MosfetElm.FLAG_DIGITAL) != 0;
 };
 
-MosfetElm.prototype.reset = function() {
+MosfetElm.prototype.reset = function () {
     this.lastv1 = this.lastv2 = this.volts[0] = this.volts[1] = this.volts[2] = this.curcount = 0;
 };
 
-MosfetElm.prototype.dump = function() {
+MosfetElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.vt;
 }
 
-MosfetElm.prototype.getDumpType = function() {
+MosfetElm.prototype.getDumpType = function () {
     return 'f';
 };
 
 
 MosfetElm.prototype.hs = 16;
 
-MosfetElm.prototype.draw = function() {
+MosfetElm.prototype.draw = function () {
     this.setBboxPt(this.point1, this.point2, this.hs);
 
     var color = this.setVoltageColor(this.volts[1]);
@@ -96,14 +97,16 @@ MosfetElm.prototype.draw = function() {
         //g.fillPolygon(arrowPoly);
     }
 
-    if (CirSim.powerCheckItem) {}
+    if (CirSim.powerCheckItem) {
+    }
     //g.setColor(Color.gray);
     color = this.setVoltageColor(this.volts[0]);
     CircuitElement.drawThickLinePt(this.point1, this.gate[1], color);
     CircuitElement.drawThickLinePt(this.gate[0], this.gate[2], color);
 
-    if (this.drawDigital() && this.pnp == -1) {}
-        //Main.getMainCanvas().drawThickCircle(pcircle.x, pcircle.y, pcircler, Settings.FG_COLOR);
+    if (this.drawDigital() && this.pnp == -1) {
+    }
+    //Main.getMainCanvas().drawThickCircle(pcircle.x, pcircle.y, pcircler, Settings.FG_COLOR);
     //drawThickCircle(g, pcircle.x, pcircle.y, pcircler);
 
     if ((this.flags & MosfetElm.FLAG_SHOWVT) != 0) {
@@ -134,23 +137,23 @@ MosfetElm.prototype.draw = function() {
 };
 
 
-MosfetElm.prototype.getPost = function(n) {
+MosfetElm.prototype.getPost = function (n) {
     return (n == 0) ? this.point1 : (n == 1) ? this.src[0] : this.drn[0];
 };
 
-MosfetElm.prototype.getCurrent = function() {
+MosfetElm.prototype.getCurrent = function () {
     return this.ids;
 }
 
-MosfetElm.prototype.getPower = function()  {
+MosfetElm.prototype.getPower = function () {
     return this.ids * (this.volts[2] - this.volts[1]);
 }
 
-MosfetElm.prototype.getPostCount = function() {
+MosfetElm.prototype.getPostCount = function () {
     return 3;
 };
 
-MosfetElm.prototype.setPoints = function()  {
+MosfetElm.prototype.setPoints = function () {
     CircuitElement.prototype.setPoints.call(this);
 
     // find the coordinates of the various points we need to draw
@@ -170,7 +173,7 @@ MosfetElm.prototype.setPoints = function()  {
         if (this.pnp == 1)
             this.arrowPoly = CircuitElement.calcArrow(this.src[1], this.src[0], 10, 4);
         else
-            this.arrowPoly = CircuitElement.calcArrow(this.drn[0],this.drn[1], 12, 5);
+            this.arrowPoly = CircuitElement.calcArrow(this.drn[0], this.drn[1], 12, 5);
     } else if (this.pnp == -1) {
         CircuitElement.interpPoint(this.point1, this.point2, this.gate[1], 1 - 36 / this.dn);
         var dist = (this.dsign < 0) ? 32 : 31;
@@ -185,13 +188,13 @@ MosfetElm.prototype.ids = 0;
 MosfetElm.prototype.mode = 0;
 MosfetElm.prototype.gm = 0;
 
-MosfetElm.prototype.stamp = function() {
+MosfetElm.prototype.stamp = function () {
 
     CirSim.stampNonLinear(this.nodes[1]);
     CirSim.stampNonLinear(this.nodes[2]);
 };
 
-MosfetElm.prototype.doStep = function() {
+MosfetElm.prototype.doStep = function () {
     var vs = new Array(3);
     vs[0] = this.volts[0];
     vs[1] = this.volts[1];
@@ -277,7 +280,7 @@ MosfetElm.prototype.doStep = function() {
         this.ids = -this.ids;
 };
 
-MosfetElm.prototype.getFetInfo = function(arr, n) {
+MosfetElm.prototype.getFetInfo = function (arr, n) {
     arr[0] = ((this.pnp == -1) ? "p-" : "n-") + n;
     arr[0] += " (Vt = " + CircuitElement.getVoltageText(this.pnp * this.vt) + ")";
     arr[1] = ((this.pnp == 1) ? "Ids = " : "Isd = ") + CircuitElement.getCurrentText(this.ids);
@@ -288,23 +291,23 @@ MosfetElm.prototype.getFetInfo = function(arr, n) {
     arr[5] = "gm = " + CircuitElement.getUnitText(this.gm, "A/V");
 };
 
-MosfetElm.prototype.getInfo = function(arr) {
+MosfetElm.prototype.getInfo = function (arr) {
     this.getFetInfo(arr, "MOSFET");
 };
 
-MosfetElm.prototype.canViewInScope = function() {
+MosfetElm.prototype.canViewInScope = function () {
     return true;
 };
 
-MosfetElm.prototype.getVoltageDiff = function() {
+MosfetElm.prototype.getVoltageDiff = function () {
     return this.volts[2] - this.volts[1];
 };
 
-MosfetElm.prototype.getConnection = function( n1, n2) {
+MosfetElm.prototype.getConnection = function (n1, n2) {
     return !(n1 == 0 || n2 == 0);
 };
 
-MosfetElm.prototype.getEditInfo = function(n) {
+MosfetElm.prototype.getEditInfo = function (n) {
     if (n == 0)
         return new EditInfo("Threshold Voltage", this.pnp * this.vt, .01, 5);
     if (n == 1) {
@@ -316,7 +319,7 @@ MosfetElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-MosfetElm.prototype.setEditValue = function(n, ei) {
+MosfetElm.prototype.setEditValue = function (n, ei) {
     if (n == 0)
         this.vt = this.pnp * ei.value;
     if (n == 1) {

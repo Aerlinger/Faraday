@@ -1,6 +1,3 @@
-
-
-
 CapacitorElm.prototype = new CircuitElement();
 CapacitorElm.prototype.constructor = CapacitorElm;
 
@@ -13,41 +10,42 @@ CapacitorElm.prototype.plate2 = [];
 CapacitorElm.FLAG_BACK_EULER = 2;
 
 
-function CapacitorElm( xa, ya, xb, yb, f, st ) {
+function CapacitorElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
-    if(st) {
-        if( typeof st == 'string' )
+    if (st) {
+        if (typeof st == 'string')
             st = st.split(' ');
         this.capacitance = Number(st[0]);
         this.voltdiff = Number(st[1]);
     }
-};
+}
+;
 
-CapacitorElm.prototype.isTrapezoidal = function() {
+CapacitorElm.prototype.isTrapezoidal = function () {
     return (this.flags & CapacitorElm.FLAG_BACK_EULER) == 0;
 };
 
-CapacitorElm.prototype.setNodeVoltage = function(n, c) {
+CapacitorElm.prototype.setNodeVoltage = function (n, c) {
     CircuitElement.prototype.setNodeVoltage.call(this, n, c);
     this.voltdiff = this.volts[0] - this.volts[1];
 };
 
-CapacitorElm.prototype.reset = function() {
+CapacitorElm.prototype.reset = function () {
     this.current = this.curcount = 0;
     // put small charge on caps when reset to start oscillators
     this.voltdiff = 1e-3;
 };
 
-CapacitorElm.prototype.getDumpType = function() {
+CapacitorElm.prototype.getDumpType = function () {
     return 'c';
 };
 
-CapacitorElm.prototype.dump = function() {
+CapacitorElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.capacitance + " " + this.voltdiff;
 };
 
-CapacitorElm.prototype.setPoints = function() {
+CapacitorElm.prototype.setPoints = function () {
     CircuitElement.prototype.setPoints.call(this);
     var f = (this.dn / 2 - 4) / this.dn;
     // calc leads
@@ -61,7 +59,7 @@ CapacitorElm.prototype.setPoints = function() {
     CircuitElement.interpPoint2(this.point1, this.point2, this.plate2[0], this.plate2[1], 1 - f, 12);
 };
 
-CapacitorElm.prototype.draw = function( g )  {
+CapacitorElm.prototype.draw = function (g) {
     var hs = 12;
     this.setBboxPt(this.point1, this.point2, hs);
 
@@ -92,7 +90,7 @@ CapacitorElm.prototype.draw = function( g )  {
     }
 };
 
-CapacitorElm.prototype.stamp = function() {
+CapacitorElm.prototype.stamp = function () {
     // capacitor companion model using trapezoidal approximation (Norton equivalent) consists of a current source in
     // parallel with a resistor.  Trapezoidal is more accurate than Backward Euler but can cause oscillatory behavior
     // if RC is small relative to the timestep.
@@ -106,7 +104,7 @@ CapacitorElm.prototype.stamp = function() {
     CirSim.stampRightSide(this.nodes[1]);
 };
 
-CapacitorElm.prototype.startIteration = function() {
+CapacitorElm.prototype.startIteration = function () {
     if (this.isTrapezoidal())
         this.curSourceValue = -this.voltdiff / this.compResistance - this.current;
     else
@@ -114,7 +112,7 @@ CapacitorElm.prototype.startIteration = function() {
     //console.log("cap " + compResistance + " " + curSourceValue + " " + current + " " + voltdiff);
 };
 
-CapacitorElm.prototype.calculateCurrent = function() {
+CapacitorElm.prototype.calculateCurrent = function () {
     var voltdiff = this.volts[0] - this.volts[1];
     // we check compResistance because this might get called before stamp(), which sets compResistance, causing
     // infinite current
@@ -124,20 +122,20 @@ CapacitorElm.prototype.calculateCurrent = function() {
 
 CapacitorElm.prototype.curSourceValue = 0;
 
-CapacitorElm.prototype.doStep = function() {
+CapacitorElm.prototype.doStep = function () {
     CirSim.stampCurrentSource(this.nodes[0], this.nodes[1], this.curSourceValue);
 };
 
-CapacitorElm.prototype.getInfo = function(arr) {
+CapacitorElm.prototype.getInfo = function (arr) {
     arr[0] = "capacitor";
     this.getBasicInfo(arr);
     arr[3] = "C = " + CircuitElement.getUnitText(this.capacitance, "F");
     arr[4] = "P = " + CircuitElement.getUnitText(this.getPower(), "W");
     var v = this.getVoltageDiff();
-    arr[4] = "U = " + CircuitElement.getUnitText(.5*this.capacitance*v*v, "J");
+    arr[4] = "U = " + CircuitElement.getUnitText(.5 * this.capacitance * v * v, "J");
 };
 
-CapacitorElm.prototype.getEditInfo = function(n) {
+CapacitorElm.prototype.getEditInfo = function (n) {
 
     if (n == 0)
         return new EditInfo("Capacitance (F)", this.capacitance, 0, 0);
@@ -150,7 +148,7 @@ CapacitorElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-CapacitorElm.prototype.setEditValue = function( n, ei ) {
+CapacitorElm.prototype.setEditValue = function (n, ei) {
     if (n == 0 && ei.value > 0)
         this.capacitance = ei.value;
     if (n == 1) {
@@ -161,10 +159,10 @@ CapacitorElm.prototype.setEditValue = function( n, ei ) {
     }
 };
 
-CapacitorElm.prototype.needsShortcut = function() {
+CapacitorElm.prototype.needsShortcut = function () {
     return true;
 };
 
-CapacitorElm.prototype.toString = function() {
+CapacitorElm.prototype.toString = function () {
     return "CapacitorElm";
 };

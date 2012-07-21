@@ -1,8 +1,8 @@
-
-function AntennaElm( xa, ya, xb, yb, f, st ) {
+function AntennaElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
-};
+}
+;
 
 // Step 1: Prototype of DepthRectangle is Rectangle
 AntennaElm.prototype = new CircuitElement();

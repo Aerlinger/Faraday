@@ -1,7 +1,6 @@
-
 function EditDialog(ce) {
 
-    this.apply = function() {
+    this.apply = function () {
 
     };
 
@@ -25,22 +24,22 @@ function EditDialog(ce) {
         var ei = this.einfos[i];
 
         // Create the label
-        $("#edit_pane").append( createLabelHTML(ei.name, ei.value) );
+        $("#edit_pane").append(createLabelHTML(ei.name, ei.value));
 
         if (ei.choice != null && (ei.choice.length > 0)) {
             // Add choice widget
-            $("#edit_pane").append( createToggleButtonsHTML('', ei.choice, i) );
+            $("#edit_pane").append(createToggleButtonsHTML('', ei.choice, i));
 
         } else if (ei.checkbox) {
             // Add checkbox here
-            $("#edit_pane").append( createCheckboxHTML(ei.checkbox, i) );
+            $("#edit_pane").append(createCheckboxHTML(ei.checkbox, i));
 
         } else {
             // Add the editable text field
             ei.textf = this.unitString(ei);
 
             var textHTML = createTextFieldHTML(ei.text, ei.value);
-            $("#edit_pane").append( textHTML );
+            $("#edit_pane").append(textHTML);
             if (ei.text) {
                 // Add the event handler for the text field
 
@@ -50,7 +49,7 @@ function EditDialog(ce) {
             if (!ei.text) {
                 // Add the scrollbar
 
-                $("#edit_pane").append( createSliderHTML('slider') );
+                $("#edit_pane").append(createSliderHTML('slider'));
                 //add(ei.bar = new Scrollbar(Scrollbar.HORIZONTAL, 50, 10, 0, barmax + 2));
                 //this.setBar(ei);
             }
@@ -63,11 +62,11 @@ function EditDialog(ce) {
     // Add the apply button:
     // ===========================
     var applyHTML = createDivButtonHTML("Apply", "applybtn");
-    $('#edit_pane').append( applyHTML );
+    $('#edit_pane').append(applyHTML);
     $("#applybtn").button();
     self = this;
 
-    $("#applybtn").click( function() {
+    $("#applybtn").click(function () {
         for (i = 0; i != self.einfocount; i++) {
 
             var ei = self.einfos[i];
@@ -77,7 +76,8 @@ function EditDialog(ce) {
                 try {
                     var d = self.parseUnits(ei);
                     ei.value = d;
-                } catch (ex) {}
+                } catch (ex) {
+                }
             }
 
             self.elm.setEditValue(i, ei);
@@ -88,9 +88,10 @@ function EditDialog(ce) {
         CirSim.needAnalyze();
     });
 
-};
+}
+;
 
-EditDialog.prototype.unitString = function(ei) {
+EditDialog.prototype.unitString = function (ei) {
     var v = ei.value;
     var va = Math.abs(v);
 
@@ -115,7 +116,7 @@ EditDialog.prototype.unitString = function(ei) {
     return noCommaFormat(v * 1e-9) + "G";
 };
 
-EditDialog.prototype.parseUnits = function(ei) {
+EditDialog.prototype.parseUnits = function (ei) {
 
     var s = $('#textField').val();//ei.textf.getText();
     s = s.trim();
@@ -163,36 +164,36 @@ EditDialog.prototype.parseUnits = function(ei) {
 
 
 /*
-public void actionPerformed(e) {
-    int i;
-    Object src = e.getSource();
-    for (i = 0; i != einfocount; i++) {
-        EditInfo ei = this.einfos[i];
-        if (src == ei.textf) {
-            if (ei.text == null) {
-                try {
-                    double d = parseUnits(ei);
-                    ei.value = d;
-                } catch (Exception ex) { }  // Ignored
-            }
-            elm.setEditValue(i, ei);
-            if (ei.text == null)
-                setBar(ei);
-            cframe.needAnalyze();
-        }
-    }
-    if (e.getSource() == okButton) {
-        apply();
-        cframe.main.requestFocus();
-        setVisible(false);
-        cframe.editDialog = null;
-    }
-    if (e.getSource() == applyButton)
-        this.apply();
-}
-*/
+ public void actionPerformed(e) {
+ int i;
+ Object src = e.getSource();
+ for (i = 0; i != einfocount; i++) {
+ EditInfo ei = this.einfos[i];
+ if (src == ei.textf) {
+ if (ei.text == null) {
+ try {
+ double d = parseUnits(ei);
+ ei.value = d;
+ } catch (Exception ex) { }  // Ignored
+ }
+ elm.setEditValue(i, ei);
+ if (ei.text == null)
+ setBar(ei);
+ cframe.needAnalyze();
+ }
+ }
+ if (e.getSource() == okButton) {
+ apply();
+ cframe.main.requestFocus();
+ setVisible(false);
+ cframe.editDialog = null;
+ }
+ if (e.getSource() == applyButton)
+ this.apply();
+ }
+ */
 
-EditDialog.prototype.adjustmentValueChanged = function(e) {
+EditDialog.prototype.adjustmentValueChanged = function (e) {
     var src = e.getSource();
     var i;
     for (i = 0; i != this.einfocount; i++) {
@@ -216,7 +217,7 @@ EditDialog.prototype.adjustmentValueChanged = function(e) {
     }
 };
 
-EditDialog.prototype.itemStateChanged = function(e) {
+EditDialog.prototype.itemStateChanged = function (e) {
     // TODO: implement
 //    Object src = e.getItemSelectable();
 //    var i;
@@ -239,7 +240,7 @@ EditDialog.prototype.itemStateChanged = function(e) {
 //    }
 };
 
-EditDialog.prototype.handleEvent = function(ev) {
+EditDialog.prototype.handleEvent = function (ev) {
 // TODO: Implement
 // if (ev.id == Event.WINDOW_DESTROY) {
 //        cframe.main.requestFocus();
@@ -250,7 +251,7 @@ EditDialog.prototype.handleEvent = function(ev) {
 //    return super.handleEvent(ev);
 };
 
-EditDialog.prototype.setBar = function(ei) {
+EditDialog.prototype.setBar = function (ei) {
     var x = Math.floor(this.barmax * (ei.value - ei.minval) / (ei.maxval - ei.minval));
     //ei.bar.setValue(x);
 };

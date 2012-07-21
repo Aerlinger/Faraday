@@ -7,7 +7,7 @@ TransistorElm.prototype.constructor = TransistorElm;
 
 
 //TODO: Fully test transistor
-function TransistorElm( xa, ya, xb, yb, f, st ) {
+function TransistorElm(xa, ya, xb, yb, f, st) {
     CircuitElement.call(this, xa, ya, xb, yb, f);
 
     // Forward declarations:
@@ -41,24 +41,24 @@ function TransistorElm( xa, ya, xb, yb, f, st ) {
     this.leakage = 1e-13;
 
 
-    if( st && st.length > 0) {
-        if( typeof st == 'string')
+    if (st && st.length > 0) {
+        if (typeof st == 'string')
             st = st.split(' ');
 
         var pnp = st.shift();
-        if(pnp)
+        if (pnp)
             this.pnp = parseInt(pnp);
 
         var lastvbe = st.shift();
-        if(lastvbe)
+        if (lastvbe)
             this.lastvbe = parseFloat(lastvbe);
 
         var lastvbc = st.shift();
-        if(lastvbc)
+        if (lastvbc)
             this.lastvbc = parseFloat(lastvbc);
 
         var beta = st.shift();
-        if(beta)
+        if (beta)
             this.beta = parseFloat(beta);
     }
 
@@ -70,32 +70,32 @@ function TransistorElm( xa, ya, xb, yb, f, st ) {
 
 }
 
-TransistorElm.prototype.setup = function() {
+TransistorElm.prototype.setup = function () {
     this.vcrit = this.vt * Math.log(this.vt / (Math.sqrt(2) * this.leakage));
     this.fgain = this.beta / (this.beta + 1);
     this.noDiagonal = true;
 };
 
-TransistorElm.prototype.nonLinear = function() {
+TransistorElm.prototype.nonLinear = function () {
     return true;
 };
 
-TransistorElm.prototype.reset = function() {
+TransistorElm.prototype.reset = function () {
     this.volts[0] = this.volts[1] = this.volts[2] = 0;
     this.lastvbc = this.lastvbe = this.curcount_c = this.curcount_e = this.curcount_b = 0;
 };
 
-TransistorElm.prototype.getDumpType = function() {
+TransistorElm.prototype.getDumpType = function () {
     return 't';
 };
 
-TransistorElm.prototype.dump = function() {
+TransistorElm.prototype.dump = function () {
     return CircuitElement.prototype.dump.call(this) + " " + this.pnp + " " + (this.volts[0] - this.volts[1]) + " " +
         (this.volts[0] - this.volts[2]) + " " + this.beta;
 };
 
 
-TransistorElm.prototype.draw = function() {
+TransistorElm.prototype.draw = function () {
 
     this.setBboxPt(this.point1, this.point2, 16);
     this.setPowerColor(true);
@@ -151,20 +151,20 @@ TransistorElm.prototype.draw = function() {
     this.drawPosts();
 };
 
-TransistorElm.prototype.getPost = function(n) {
+TransistorElm.prototype.getPost = function (n) {
     return (n == 0) ? this.point1 : (n == 1) ? this.coll[0] : this.emit[0];
 };
 
-TransistorElm.prototype.getPostCount = function() {
+TransistorElm.prototype.getPostCount = function () {
     return 3;
 };
 
-TransistorElm.prototype.getPower = function() {
+TransistorElm.prototype.getPower = function () {
     return (this.volts[0] - this.volts[2]) * this.ib + (this.volts[1] - this.volts[2]) * this.ic;
 };
 
 
-TransistorElm.prototype.setPoints = function() {
+TransistorElm.prototype.setPoints = function () {
     CircuitElement.prototype.setPoints.call(this);
     var hs = 16;
 
@@ -203,7 +203,7 @@ TransistorElm.prototype.setPoints = function() {
 };
 
 
-TransistorElm.prototype.limitStep = function(vnew, vold) {
+TransistorElm.prototype.limitStep = function (vnew, vold) {
     var arg;
     var oo = vnew;
 
@@ -224,13 +224,13 @@ TransistorElm.prototype.limitStep = function(vnew, vold) {
     return (vnew);
 };
 
-TransistorElm.prototype.stamp = function() {
+TransistorElm.prototype.stamp = function () {
     CirSim.stampNonLinear(this.nodes[0]);
     CirSim.stampNonLinear(this.nodes[1]);
     CirSim.stampNonLinear(this.nodes[2]);
 };
 
-TransistorElm.prototype.doStep = function() {
+TransistorElm.prototype.doStep = function () {
 
     var vbc = this.volts[0] - this.volts[1]; // typically negative
     var vbe = this.volts[0] - this.volts[2]; // typically positive
@@ -300,7 +300,7 @@ TransistorElm.prototype.doStep = function() {
     CirSim.stampRightSide(this.nodes[2], -this.ie + gee * vbe + gec * vbc);
 };
 
-TransistorElm.prototype.getInfo = function(arr) {
+TransistorElm.prototype.getInfo = function (arr) {
     arr[0] = "transistor (" + ((this.pnp == -1) ? "PNP)" : "NPN)") + " beta=" + showFormat.format(this.beta);
     var vbc = this.volts[0] - this.volts[1];
     var vbe = this.volts[0] - this.volts[2];
@@ -318,7 +318,7 @@ TransistorElm.prototype.getInfo = function(arr) {
     arr[6] = "Vce = " + this.getVoltageText(vce);
 };
 
-TransistorElm.prototype.getScopeValue = function(x) {
+TransistorElm.prototype.getScopeValue = function (x) {
     switch (x) {
         case Scope.VAL_IB:
             return this.ib;
@@ -336,7 +336,7 @@ TransistorElm.prototype.getScopeValue = function(x) {
     return 0;
 };
 
-TransistorElm.prototype.getScopeUnits = function(x) {
+TransistorElm.prototype.getScopeUnits = function (x) {
     switch (x) {
         case Scope.VAL_IB:
         case Scope.VAL_IC:
@@ -347,7 +347,7 @@ TransistorElm.prototype.getScopeUnits = function(x) {
     }
 };
 
-TransistorElm.prototype.getEditInfo = function(n) {
+TransistorElm.prototype.getEditInfo = function (n) {
     if (n == 0)
         return new EditInfo("Beta/hFE", this.beta, 10, 1000).
             setDimensionless();
@@ -359,7 +359,7 @@ TransistorElm.prototype.getEditInfo = function(n) {
     return null;
 };
 
-TransistorElm.prototype.setEditValue = function(n, ei) {
+TransistorElm.prototype.setEditValue = function (n, ei) {
     if (n == 0) {
         this.beta = ei.value;
         this.setup();
@@ -373,6 +373,6 @@ TransistorElm.prototype.setEditValue = function(n, ei) {
     }
 };
 
-TransistorElm.prototype.canViewInScope = function() {
+TransistorElm.prototype.canViewInScope = function () {
     return true;
 };

@@ -1,4 +1,3 @@
-
 Inductor.FLAG_BACK_EULER = 2;
 
 
@@ -10,9 +9,10 @@ function Inductor() {
     this.compResistance = 0;
     this.current = 0;
     this.curSourceValue = 0;
-};
+}
+;
 
-Inductor.prototype.setup = function(ic, cr, f) {
+Inductor.prototype.setup = function (ic, cr, f) {
     this.inductance = ic;
     this.current = cr;
     this.flags = f;
@@ -20,15 +20,15 @@ Inductor.prototype.setup = function(ic, cr, f) {
 };
 
 
-Inductor.prototype.isTrapezoidal = function() {
+Inductor.prototype.isTrapezoidal = function () {
     return (this.flags & Inductor.FLAG_BACK_EULER) == 0;
 };
 
-Inductor.prototype.reset = function() {
+Inductor.prototype.reset = function () {
     this.current = 0;
 };
 
-Inductor.prototype.stamp = function(n0, n1) {
+Inductor.prototype.stamp = function (n0, n1) {
     // inductor companion model using trapezoidal or backward euler
     // approximations (Norton equivalent) consists of a current
     // source in parallel with a resistor.  Trapezoidal is more
@@ -46,18 +46,18 @@ Inductor.prototype.stamp = function(n0, n1) {
     CirSim.stampRightSide(this.nodes[1]);
 };
 
-Inductor.prototype.nonLinear = function() {
+Inductor.prototype.nonLinear = function () {
     return false;
 };
 
-Inductor.prototype.startIteration = function(voltdiff) {
+Inductor.prototype.startIteration = function (voltdiff) {
     if (this.isTrapezoidal())
         this.curSourceValue = voltdiff / this.compResistance + this.current;
     else // backward euler
         this.curSourceValue = this.current;
 };
 
-Inductor.prototype.calculateCurrent = function(voltdiff) {
+Inductor.prototype.calculateCurrent = function (voltdiff) {
     // we check compResistance because this might get called
     // before stamp(), which sets compResistance, causing
     // infinite current
@@ -66,6 +66,6 @@ Inductor.prototype.calculateCurrent = function(voltdiff) {
     return this.current;
 };
 
-Inductor.prototype.doStep = function(voltdiff) {
+Inductor.prototype.doStep = function (voltdiff) {
     CirSim.stampCurrentSource(this.nodes[0], this.nodes[1], this.curSourceValue);
 };

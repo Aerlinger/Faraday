@@ -1,2 +1,1 @@
-Faraday
-=======
+Faraday Circuit Simulator
