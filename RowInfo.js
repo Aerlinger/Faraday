@@ -17,4 +17,3 @@ function RowInfo() {
     this.dropRow = false;
 
 }
-;

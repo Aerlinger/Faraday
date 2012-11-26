@@ -22,7 +22,7 @@ CurrentElm.prototype.dump = function () {
 
 CurrentElm.prototype.getDumpType = function () {
     return 'i';
-};
+}; 
 
 CircuitElement.prototype.arrow;
 CircuitElement.prototype.ashaft1;

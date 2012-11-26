@@ -10,7 +10,6 @@ function Point(x, y) {
     this.x = x;
     this.y = y;
 }
-;
 
 Point.prototype.x = 0;
 Point.prototype.y = 0;
@@ -23,7 +22,7 @@ function Rectangle(x, y, width, height) {
     this.width = width;
     this.height = height;
 }
-;
+
 
 Rectangle.prototype.contains = function (x, y) {
     if (x > this.x && x < this.x + this.width &&
@@ -32,13 +31,13 @@ Rectangle.prototype.contains = function (x, y) {
     }
 
     return false;
-};
+}
 
 Rectangle.prototype.equals = function (otherRect) {
     if (!otherRect) return false;
     return ( otherRect.x === this.x && otherRect.y === this.y &&
         otherRect.width === this.width && otherRect.height === this.height );
-};
+}
 
 // TODO: Test
 Rectangle.prototype.intersects = function (otherRect) {
@@ -57,7 +56,7 @@ Rectangle.prototype.intersects = function (otherRect) {
         || otherRect.y + otherRect.height < this.y
         );
 
-};
+}
 
 ////////////////////////////////////////////////////////////////
 // Polygon
@@ -88,7 +87,3 @@ function Polygon(vertices) {
         return this.vertices.length;
     };
 }
-;
-
-
-

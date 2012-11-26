@@ -14,19 +14,7 @@ function FindPathInfo(type, firstElm, dest, elementList, numNodes) {
 
     this.used = new Array(numNodes);
     //zeroArray(this.used);
-}
-;
-
-//public function FindPathInfo(t, e, d, elementList:Array, numNodes:int) {
-//    dest = d;
-//    type = t;
-//    firstElm = e;
-//
-//    elmList = elementList;
-//    //used = ArrayUtils.initializeOneDArray(sim.nodeList.length);
-//    used = new Array(numNodes);
-//    /*used = */ArrayUtils.initializeOneDArray(used, numNodes);
-//}
+};
 
 
 FindPathInfo.prototype.findPath = function (n1, depth) {

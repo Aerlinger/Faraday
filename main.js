@@ -1,9 +1,7 @@
-
-
 function start() {
     if (console)
         console.log("starting simulation");
-};
+}
 
 function buildUI() {
     var items = [];
@@ -177,7 +175,3 @@ function start() {
         CirSim.updateCircuit();
     }, 40);
 }
-
-
-
-

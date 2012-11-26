@@ -96,4 +96,3 @@ Function.method('swiss', function (parent) {
     }
     return this;
 });
-
